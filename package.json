@@ -1,0 +1,24 @@
+{
+  "name": "notes-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Evgeny-Kuizhev/educational-draft-note.git"
+  },
+  "author": "Evgeny Kuizhev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Evgeny-Kuizhev/educational-draft-note/issues"
+  },
+  "homepage": "https://github.com/Evgeny-Kuizhev/educational-draft-note#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "save": "^2.3.2"
+  }
+}
