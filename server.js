@@ -41,6 +41,6 @@ const PORT = 3000;
 
 Promise.resolve()
   .then(() => sqlite.open('./db.sqlite', { Promise }))
-  .then(db => db.migrate({ force: 'last' }))
+  //.then(db => db.migrate({ force: 'last' }))
   .catch((err) => console.error(err))
   .finally(() => app.listen(PORT, () => console.log(`Listening on port ${PORT}`)));
