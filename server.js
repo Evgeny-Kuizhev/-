@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // async function main() {
 //     const db = await sqlite.open('./db.sqlite', { Promise });
-//     db.migrate({force: 'last'})
+//         db.migrate({force: 'last'})
 // }
 
 // main();
@@ -39,8 +39,11 @@ app.use('*', (req, res) => res.render('not-found'));
 // starting server
 const PORT = 3000;
 
+const seed = require('./seed');
+
 Promise.resolve()
   .then(() => sqlite.open('./db.sqlite', { Promise }))
   //.then(db => db.migrate({ force: 'last' }))
+  .then(db => seed(db))
   .catch((err) => console.error(err))
   .finally(() => app.listen(PORT, () => console.log(`Listening on port ${PORT}`)));
