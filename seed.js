@@ -8,7 +8,7 @@ module.exports = (db) => {
         ("Lena", "len@yandex.ru", NULL, "03.04.1995"),
         ("Vanya", "van@yandex.ru", 79896344443, NULL),
         ("Marina", "mar@yandex.ru", 89896343333, "01.02.2001");
-        `
+        `, (err) => console.log(err.code)
     );
 
     // Notes
@@ -21,7 +21,7 @@ module.exports = (db) => {
         (2, "Начать бегать"),
         (4, "Прочитать книги"),
         (3, "Лечь пораньше")
-    `
+    `, (err) => console.log(err.code)
     );
 
     // Tags
@@ -34,7 +34,7 @@ module.exports = (db) => {
         ("relax"),
         ("study"),
         ("aims")
-    `
+    `, (err) => console.log(err.code)
     );
 
     // Принадлежность тега записки
@@ -42,12 +42,12 @@ module.exports = (db) => {
         (1, 1),
         (2, 7),
         (1, 2),
-        (3, 4),
-        (3, 5),
+        (4, 4),
+        (4, 5),
         (7, 7),
         (5, 3),
         (3, 6)
-    `
+    `, (err) => console.log(err.code)
     );
 
     // Like
@@ -60,6 +60,6 @@ module.exports = (db) => {
         (7, 7),
         (5, 3),
         (3, 6)
-    `
+    `, (err) => console.log(err.code)
     );
 }
