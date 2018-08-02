@@ -1,8 +1,7 @@
 DROP TRIGGER incr_notes_count;
 DROP TRIGGER decr_notes_count;
 
-BEGIN TRANSACTION;
-CREATE TEMPORARY TABLE t_backup(
+CREATE TABLE t_backup(
   id        INTEGER     PRIMARY KEY,
   username  TEXT        NOT NULL    UNIQUE,
   email     TEXT        NOT NULL    UNIQUE,
@@ -12,4 +11,3 @@ CREATE TEMPORARY TABLE t_backup(
 INSERT INTO t_backup SELECT id, username, email, phone, birthday FROM User;
 DROP TABLE User;
 ALTER TABLE t_backup RENAME TO User;
-COMMIT;

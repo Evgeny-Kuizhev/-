@@ -1,8 +1,7 @@
 DROP TRIGGER incr_tags_count;
 DROP TRIGGER decr_tags_count;
 
-BEGIN TRANSACTION;
-CREATE TEMPORARY TABLE t_backup(
+CREATE TABLE t_backup(
   id        INTEGER     PRIMARY KEY,
   user_id   INTEGER     NOT NULL,
   title     TEXT        NOT NULL,
@@ -14,4 +13,3 @@ CREATE TEMPORARY TABLE t_backup(
 INSERT INTO t_backup SELECT id, user_id, title FROM Note;
 DROP TABLE Note;
 ALTER TABLE t_backup RENAME TO Note;
-COMMIT;
