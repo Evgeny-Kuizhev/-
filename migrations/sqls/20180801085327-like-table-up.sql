@@ -2,6 +2,7 @@ CREATE TABLE "Like" (
   id        INTEGER     PRIMARY KEY,
   note_id   INTEGER     NOT NULL,
   user_id   INTEGER     NOT NULL,
+  UNIQUE (note_id, user_id),
 
   CONSTRAINT Like_fk_note_id FOREIGN KEY (note_id)
     REFERENCES Note (id) ON UPDATE CASCADE ON DELETE CASCADE,
