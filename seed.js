@@ -3,7 +3,7 @@ module.exports = (db) => {
     db.run(`INSERT INTO User (username, email, phone, birthday) VALUES
         ("Petya", "pet@yandex.ru", 89896348563, NULL),
         ("Vasya", "vas@yandex.ru", 89896311163, "11.15.1999"),
-        ("Kolya", "kol@yandex.ru",NULL, NULL),
+        ("Kolya", "kol@yandex.ru", NULL, NULL),
         ("Dasha", "dash@yandex.ru", 89596348513, NULL),
         ("Lena", "len@yandex.ru", NULL, "03.04.1995"),
         ("Vanya", "van@yandex.ru", 79896344443, NULL),
