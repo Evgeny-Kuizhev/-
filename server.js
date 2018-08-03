@@ -32,27 +32,19 @@ app.use('*', (req, res) => res.render('not-found'));
 // starting server
 const PORT = 3000;
 
-async function main() {
+const seed = require('./seed');
 
-}
-
-main();
-
-new Promise((resolve, reject) => {
-    const seed = require('./seed');
-    db.serialize( () => {
-        db.get('PRAGMA foreign_keys', (err, res) => {
-            console.log('default pragma switched to ' + res.foreign_keys);
-        });
-        seed(db);
-        db.get('SELECT "SELECT" `SELECT`', (err, row) => {
-            if (err) reject(err);
-            console.log(row);
-            resolve();
-        });
+db.serialize( async () => {
+    db.get('PRAGMA foreign_keys', (err, res) => {
+        if (err) throw err;
+        console.log('Default PRAGMA switched to ' + res.foreign_keys);
     });
-})
-.then(() => {
-    app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
-})
-.catch((err) => console.error(err))
+
+    //db.serialize( () => seed(db) );
+
+    db.get('SELECT "SELECT" `SELECT`', (err, row) => {
+        if (err) throw err;
+        console.log('DB connected');
+        app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
+    });
+});
