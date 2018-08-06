@@ -2,7 +2,7 @@
   "name": "notes-project",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,10 +18,14 @@
   },
   "homepage": "https://github.com/Evgeny-Kuizhev/educational-draft-note#readme",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
+    "db-migrate": "^0.11.1",
+    "db-migrate-sqlite3": "^0.3.1",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "morgan": "^1.9.0",
-    "save": "^2.3.2"
+    "save": "^2.3.2",
+    "sqlite": "^2.9.2"
   }
 }
