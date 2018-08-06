@@ -1,3 +1,5 @@
+'use strict'
+
 const express = require('express'),
     router = express.Router(),
     apiV1 = require('./v1');
