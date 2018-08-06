@@ -1,3 +1,5 @@
+'use strict'
+
 module.exports = (db) => {
     // Users
     db.run(`INSERT INTO User (username, email, phone, birthday) VALUES
