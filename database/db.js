@@ -2,7 +2,8 @@
 
 const
     sqlite3 = require('sqlite3').verbose(),
-    db = new  sqlite3.Database('database/db.sqlite', () =>  db.run('PRAGMA foreign_keys=on') ),
+    Promise  = require('bluebird'),
+    db = Promise.promisifyAll( new  sqlite3.Database('database/db.sqlite', () =>  db.run('PRAGMA foreign_keys=on') ) ),
     seed = require('./seed');
 
 db.serialize(() => {
@@ -14,5 +15,16 @@ db.serialize(() => {
     // use seed?
     // db.serialize( () => seed(db) );
 });
+
+// db.getAsync = function (sql) {
+//     return new Promise(function (resolve, reject) {
+//         db.get(sql, function (err, row) {
+//             if (err)
+//                 reject(err);
+//             else
+//                 resolve(row);
+//         });
+//     });
+// };
 
 module.exports = db;
