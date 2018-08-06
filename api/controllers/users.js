@@ -21,8 +21,7 @@ exports.getOne = (req, res) => {
     function cb(err, user) {
         if (err) respond.failure(res, {message: 'Ошибка бд.'}, 500);
         //if (!user.length) respond.failure(res, {message: 'Пользователь не найден!'}, 404);
-        console.log(user);
-        respond.success(res, {user, message: 'Пользователи полученны!'});
+        respond.success(res, {user: user, message: 'Пользователь получен!'});
     }
     users.getOne(req.params.id, cb);
 }
