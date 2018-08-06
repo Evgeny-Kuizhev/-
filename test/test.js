@@ -1,3 +1,5 @@
+'use strict'
+
 let request = require('supertest');
 request = request('http://localhost:3000');
 const assert = require('assert');

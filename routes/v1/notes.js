@@ -1,3 +1,5 @@
+'use strict'
+
 const
     express = require('express'),
     router = express.Router();
@@ -6,5 +8,5 @@ const
 
 
 
-    
+
 module.exports = router;
