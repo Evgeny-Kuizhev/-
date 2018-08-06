@@ -3,7 +3,11 @@ const
     bodyParser = require('body-parser'),
     logger = require('morgan'),
     routes = require('./routes/'),
-    app = express();
+    app = express(),
+
+    Promise = require('bluebird'),
+    sqlite = require('sqlite');
+
 
 // set the view engine to ejs
 app.set('views', `${__dirname}/views`);
@@ -20,10 +24,23 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+// async function main() {
+//     const db = await sqlite.open('./db.sqlite', { Promise });
+//     db.migrate({force: 'last'})
+// }
+
+// main();
+
 // handlers routes
 app.use('/', routes);
 app.use('*', (req, res) => res.render('not-found'));
 
 // starting server
 const PORT = 3000;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+Promise.resolve()
+  .then(() => sqlite.open('./db.sqlite', { Promise }))
+  //.then(db => db.migrate({ force: 'last' }))
+  .catch((err) => console.error(err))
+  .finally(() => app.listen(PORT, () => console.log(`Listening on port ${PORT}`)));
