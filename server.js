@@ -4,7 +4,7 @@ const
     express = require('express'),
     bodyParser = require('body-parser'),
     logger = require('morgan'),
-    routes = require('./routes/'),
+    routes = require('./api/routes/'),
     app = express();
 
 
