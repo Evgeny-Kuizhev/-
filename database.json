@@ -4,5 +4,6 @@
   "dev": {
     "driver": "sqlite3",
     "filename": "./db.sqlite"
-  }
+  },
+  "sql-file" : true
 }
