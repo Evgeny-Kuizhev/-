@@ -7,5 +7,3 @@ CREATE TABLE "Note" (
   CONSTRAINT Note_fk_user_id FOREIGN KEY (user_id)
     REFERENCES "User" (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-CREATE INDEX Note_ix_user_id ON Note (user_id);
