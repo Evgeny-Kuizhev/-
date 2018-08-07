@@ -3,7 +3,7 @@
 const
     sqlite3 = require('sqlite3').verbose(),
     Promise  = require('bluebird'),
-    db = Promise.promisifyAll( new  sqlite3.Database('database/db.sqlite', () =>  db.run('PRAGMA foreign_keys=on') ) ),
+    db = Promise.promisifyAll( new  sqlite3.Database('./db.sqlite', () =>  db.run('PRAGMA foreign_keys=on') ) ),
     seed = require('./seed');
 
 db.serialize(() => {
@@ -13,7 +13,7 @@ db.serialize(() => {
     });
 
     // use seed?
-    // db.serialize( () => seed(db) );
+    db.serialize( () => seed(db) );
 });
 
 
