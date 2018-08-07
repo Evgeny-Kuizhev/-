@@ -11,7 +11,7 @@ const headers = {
 function _respond(res, success, body, status) {
     body.success = success;
     res.set(headers);
-    res.status(status).send(body);
+    res.status(status).json(body);
 }
 
 exports.success = (res, data) => {

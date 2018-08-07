@@ -2,16 +2,16 @@
 
 const
     respond = require('./helpfullRespond'),
-    users = require('../models/Users');
+    Users = require('../models/Users');
 
-console.log(users.getAll);
+
 exports.getAll = (req, res) => {
     function cb(err, users) {
         if (err) respond.failure(res, {message: 'Ошибка бд.'}, 500);
-        //if (!users.length) respond.failure(res, {message: 'Пользователи не найдены!'}, 404);
+        if (!users) respond.failure(res, {message: 'Пользователи не найдены!'}, 404);
         respond.success(res, {users, message: 'Пользователи полученны!'});
     }
-    users.getAll(cb);
+    Users.getAll(cb);
 }
 
 exports.getOne = (req, res) => {
@@ -20,8 +20,20 @@ exports.getOne = (req, res) => {
     }
     function cb(err, user) {
         if (err) respond.failure(res, {message: 'Ошибка бд.'}, 500);
-        //if (!user.length) respond.failure(res, {message: 'Пользователь не найден!'}, 404);
-        respond.success(res, {user: user, message: 'Пользователь получен!'});
+        if (!user) respond.failure(res, {message: 'Пользователь не найден!'}, 404);
+        respond.success(res, {user, message: 'Пользователь получен!'});
     }
-    users.getOne(req.params.id, cb);
+    Users.getOne(req.params.id, cb);
+}
+
+exports.getUserNotes = (req, res) => {
+    if (!req.params && !req.params.id){
+        respond.failure(res, {message: 'Плохой запрос'}, 400);
+    }
+    function cb(err, notes) {
+        if (err) respond.failure(res, {message: 'Ошибка бд.'}, 500);
+        if (!notes) respond.failure(res, {message: 'Записи пользователя не найдены!'}, 404);
+        respond.success(res, {notes, message: 'Записи пользователя получены!'});
+    }
+    Users.getUserNotes(req.params.id, cb);
 }

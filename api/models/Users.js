@@ -6,17 +6,21 @@ const db = require('../../database/db');
 class Users {
 
     static async getAll(cb) {
-        let query = 'SELECT * FROM User',
-            users = await db.allAsync(query);
-        console.log('---------------------');
-        console.log(users);
-        cb(err, users);
+        let sql = 'SELECT * FROM User',
+            users = await db.allAsync(sql).catch(cb);
+        cb(null, users);
     }
 
     static async getOne(id, cb) {
-        let query = 'SELECT * FROM User WHERE id=? LIMIT 1',
-            user = await db.getAsync(query, id);
+        let sql = 'SELECT * FROM User WHERE id=?',
+            user = await db.getAsync(sql, id).catch(cb);
         cb(null, user);
+    }
+
+    static async getUserNotes(id, cb) {
+        let sql = 'SELECT * FROM Note WHERE user_id=?',
+            notes = await db.allAsync(sql, id).catch(cb);
+            cb(null, notes);
     }
 }
 
