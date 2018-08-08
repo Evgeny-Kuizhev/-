@@ -11,6 +11,8 @@ router.get('/', usersCntr.getAll);
 router.get('/:id', usersCntr.getOne);
 // получить записки пользователя
 router.get('/:id/notes', usersCntr.getUserNotes);
+// создать пользователя
+router.post('/', usersCntr.create);
 
 
 module.exports = router;
