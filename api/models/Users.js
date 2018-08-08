@@ -22,6 +22,15 @@ class Users {
             notes = await db.allAsync(sql, id).catch(cb);
             cb(null, notes);
     }
+
+    static async create(name, email, phone=null, birthday=null, cb) {
+        let sql =
+            `INSERT INTO User (username, email, phone, birthday)
+            VALUES (${name}, ${email}, ${phone}, ${birthday})`,
+
+            user = await db.runAsync(sql).catch(cb);
+            cb(null, user);
+    }
 }
 
 
