@@ -15,7 +15,7 @@ exports.getAll = (req, res) => {
 }
 
 exports.getOne = (req, res) => {
-    if (!req.params && !req.params.id){
+    if (!req.params || !req.params.id){
         respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
     function cb(err, note) {
@@ -27,7 +27,7 @@ exports.getOne = (req, res) => {
 }
 
 exports.getTagNotes = (req, res) => {
-    if (!req.params && !req.params.id){
+    if (!req.params || !req.params.id){
         respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
     function cb(err, notes) {
