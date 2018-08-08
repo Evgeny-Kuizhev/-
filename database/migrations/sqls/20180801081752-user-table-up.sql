@@ -3,5 +3,6 @@ CREATE TABLE "User" (
   username  TEXT        NOT NULL    UNIQUE,
   email     TEXT        NOT NULL    UNIQUE,
   phone     INTEGER     UNIQUE,
-  birthday  DATE
+  birthday  DATE,
+  notes_count INTEGER DEFAULT 0
 );
