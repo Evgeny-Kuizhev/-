@@ -39,9 +39,9 @@ exports.getUserNotes = (req, res) => {
 }
 
 exports.create = (req, res) => {
-    const p = req.body;
-    if (!p || !p.username || !p.email) {
-        return respond.failure(res, {message: 'Плохой запрос'}, 400);
+    const b = req.body;
+    if (!b || !b.username || !b.email) {
+        return respond.failure(res, {message: 'Имя и емайл обязательны поля!'}, 400);
     }
     function cb(err, user) {
         console.log(err);
@@ -50,5 +50,5 @@ exports.create = (req, res) => {
 
         respond.success(res, {user, message: 'Пользователь создан!!'});
     }
-    Users.create(p.username, p.email, p.phone, p.birthday, cb);
+    Users.create(b.username, b.email, b.phone, b.birthday, cb);
 }
