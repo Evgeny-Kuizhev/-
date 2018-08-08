@@ -1,8 +1,3 @@
--- изменяю таблицу записки и добавляю столбец
--- кол-во тэгов со значением 0
-ALTER TABLE Note
-ADD tags_count INTEGER DEFAULT 0;
-
 -- создаю триггер на увеличение тегов
 CREATE TRIGGER incr_tags_count
 AFTER INSERT ON Note_Tag
