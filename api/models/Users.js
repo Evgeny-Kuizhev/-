@@ -24,11 +24,13 @@ class Users {
     }
 
     static async create(name, email, phone=null, birthday=null, cb) {
+        console.log(name, email, phone, birthday);
         let sql =
-            `INSERT INTO User (username, email, phone, birthday)
-            VALUES (${name}, ${email}, ${phone}, ${birthday})`,
-
-            user = await db.runAsync(sql).catch(cb);
+            `INSERT INTO User (username, email, phone, birthday) VALUES
+            ("${name}", "${email}", ${phone}, "${birthday}")`;
+        console.log(sql);
+        let user = await db.runAsync(sql)
+        .then(u => console.log(u)).catch(cb);
             cb(null, user);
     }
 }
