@@ -25,5 +25,4 @@ db.serialize( async () => {
     db.serialize( () => seed(db) );
 });
 
-
 module.exports = db;
