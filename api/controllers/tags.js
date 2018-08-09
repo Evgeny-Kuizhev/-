@@ -7,8 +7,8 @@ const
 
 exports.getAll = (req, res) => {
     function cb(err, tags) {
-        if (err) respond.failure(res, {message: 'Ошибка бд.'}, 500);
-        if (!tags) respond.failure(res, {message: 'Теги не найдены!'}, 404);
+        if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
+        if (!tags) return respond.failure(res, {message: 'Теги не найдены!'}, 404);
         respond.success(res, {tags, message: 'Теги полученны!'});
     }
     Tags.getAll(cb);
@@ -16,11 +16,11 @@ exports.getAll = (req, res) => {
 
 exports.getNoteTags = (req, res) => {
     if (!req.params || !req.params.id){
-        respond.failure(res, {message: 'Плохой запрос'}, 400);
+        return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
     function cb(err, tags) {
-        if (err) respond.failure(res, {message: 'Ошибка бд.'}, 500);
-        if (!tags) respond.failure(res, {message: 'Теги записки не найдены!'}, 404);
+        if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
+        if (!tags) return respond.failure(res, {message: 'Теги записки не найдены!'}, 404);
         respond.success(res, {tags, message: 'Теги записки получены!'});
     }
     Tags.getNoteTags(req.params.id, cb);
