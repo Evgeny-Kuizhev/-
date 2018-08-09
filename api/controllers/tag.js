@@ -2,7 +2,7 @@
 
 const
     respond = require('./helpfullRespond'),
-    Tags = require('../models/Tags');
+    Tag = require('../models/Tag');
 
 
 exports.getAll = (req, res) => {
@@ -11,7 +11,7 @@ exports.getAll = (req, res) => {
         if (!tags) return respond.failure(res, {message: 'Теги не найдены!'}, 404);
         respond.success(res, {tags, message: 'Теги полученны!'});
     }
-    Tags.getAll(cb);
+    Tag.getAll(cb);
 }
 
 exports.getNoteTags = (req, res) => {
@@ -23,5 +23,17 @@ exports.getNoteTags = (req, res) => {
         if (!tags) return respond.failure(res, {message: 'Теги записки не найдены!'}, 404);
         respond.success(res, {tags, message: 'Теги записки получены!'});
     }
-    Tags.getNoteTags(req.params.id, cb);
+    Tag.getNoteTags(req.params.id, cb);
+}
+
+exports.create = (req, res) => {
+    if (!req.body || !req.body.title) {
+        return respond.failure(res, {message: 'Плохой запрос'}, 400);
+    }
+    function cb(err, tag) {
+        if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
+        // if (!tags) return respond.failure(res, {message: 'Теги записки не найдены!'}, 404);
+        respond.success(res, {tag, message: 'Тег добавлен!'});
+    }
+    Tag.create(req.body.title, cb);
 }
