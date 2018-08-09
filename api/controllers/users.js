@@ -46,8 +46,7 @@ exports.create = (req, res) => {
     function cb(err, user) {
         console.log(err);
         if (err) return respond.failure(res, {message: err}, 500);
-        if (!user) return respond.failure(res, {message: 'Пользователь возможно был добавлен, но бд не вернула его!'}, 404);
-
+        //if (!user) return respond.failure(res, {message: 'Пользователь возможно был добавлен, но он не получен!'}, 404);
         respond.success(res, {user, message: 'Пользователь создан!!'});
     }
     Users.create(b.username, b.email, b.phone, b.birthday, cb);
