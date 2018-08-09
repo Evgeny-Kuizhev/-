@@ -21,7 +21,7 @@ class Notes {
         let sql = `select Note.* from Note_Tag
                 inner join Note on Note_Tag.note_id=Note.id
                 where Note_Tag.tag_id=?`,
-            notes = await db.getAsync(sql, id).catch(cb);
+            notes = await db.allAsync(sql, id).catch(cb);
         cb(null, notes);
     }
 }
