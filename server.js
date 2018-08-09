@@ -25,7 +25,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // handlers routes
 app.use('/', routes);
-app.use('*', (req, res) => res.render('not-found'));
+app.use('*', (req, res) => {
+    res.status(404);
+    res.render('not-found');
+});
 
 // starting server
 const PORT = 3000;
