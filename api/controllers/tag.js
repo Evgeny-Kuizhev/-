@@ -39,5 +39,13 @@ exports.create = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-    
+    if (!req.params || !req.params.id){
+        return respond.failure(res, {message: 'Плохой запрос'}, 400);
+    }
+    function cb(err, tag) {
+        if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
+        if (!tag) return respond.failure(res, {message: 'Нет такого тега для удаления!'}, 404);
+        respond.success(res, {tag, message: 'Тег удален!'});
+    }
+    Tag.delete(req.params.id, cb);
 }

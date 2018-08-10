@@ -65,5 +65,13 @@ exports.change = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-    
+    if (!req.params || !req.params.id){
+        return respond.failure(res, {message: 'Плохой запрос'}, 400);
+    }
+    function cb(err, note) {
+        if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
+        if (!note) return respond.failure(res, {message: 'Нет такой записки для удаления!'}, 404);
+        respond.success(res, {note, message: 'Записка удалена!'});
+    }
+    Note.delete(req.params.id, cb);
 }
