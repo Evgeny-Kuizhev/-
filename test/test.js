@@ -44,12 +44,12 @@ describe('API', () => {
                 assert(res.body.note.id, 2);
             })
         });
-        it('NOTES should return tag\'s notes', () => {
+        it('NOTES should return tag\'s', () => {
             return request
-            .get('/api/v1/notes/tag/7')
+            .get('/api/v1/note/4/tags')
             .expect(200)
             .then(res => {
-                assert(res.body.notes, !undefined);
+                assert(res.body.tags, !undefined);
             })
         });
         it('TAGS should return all tags', () => {
@@ -58,11 +58,11 @@ describe('API', () => {
             .expect(200)
             .then(res => assert(res.body.tags, !undefined));
         });
-        it('TAGS should return note\'s tags', () => {
+        it('TAGS should return note\'s', () => {
             return request
-            .get('/api/v1/tags/note/4')
+            .get('/api/v1/tag/7/notes')
             .expect(200)
-            .then(res => assert(res.body.tags, !undefined));
+            .then(res => assert(res.body.notes, !undefined));
         });
     });
 
@@ -111,37 +111,34 @@ describe('API', () => {
             .send({new_title: 'Съездить в отпуск'})
             .expect(200).then(res => {
                 let b = res.body;
-                console.log(b);
                 assert(b.updated.title === 'Съездить в отпуск')
             })
         });
     });
 
-    // describe('DELETE /api/v1', () => {
-    //     it('USERS should return status code 200', done => {
-    //         request
-    //         .get('/')
-    //         .expect(400, done)
-    //     });
-    //     it('USERS:ID should return status code 200', done => {
-    //         request
-    //         .get('/')
-    //         .expect(200, done)
-    //     });
-    //     it('NOTES should return status code 200', done => {
-    //         request
-    //         .get('/')
-    //         .expect(400, done)
-    //     });
-    //     it('NOTES:ID should return status code 200', done => {
-    //         request
-    //         .get('/')
-    //         .expect(200, done)
-    //     });
-    //     it('TAGS should return status code 200', done => {
-    //         request
-    //         .get('/')
-    //         .expect(200, done)
-    //     });
-    // });
+    describe('DELETE /api/v1', () => {
+        it('DELETE USER should return deleted user', () => {
+            return request
+            .delete('/api/v1/user/1')
+            .expect(200).then( res => {
+                let b = res.body;
+                assert(b.user.username === 'Petya')
+            })
+        });
+        it('DELETE NOTE should deleted note', () => {
+            return request
+            .post('/api/v1/note/3')
+            .expect(200).then(res => {
+                let b = res.body;
+                assert(b.note.title === 'Отдохнуть')
+            })
+        });
+        it('DELETE TAG should return deleted tag', () => {
+            return request
+            .post('/api/v1/tag/8')
+            .expect(200).then(res => {
+                assert(res.body.tag.title === 'aims')
+            })
+        });
+    });
 });
