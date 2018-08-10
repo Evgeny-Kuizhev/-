@@ -1,2 +1,2 @@
-DROP INDEX Note_fk_user_id;
-DROP TABLE  "Note";
+DROP INDEX Note_ix_user_id;
+DROP TABLE "Note";
