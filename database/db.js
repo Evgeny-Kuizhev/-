@@ -25,4 +25,15 @@ db.serialize( async () => {
     db.serialize( () => seed(db) );
 });
 
+// db.getAsync = function (sql) {
+//     return new Promise(function (resolve, reject) {
+//         db.get(sql, function (err, row) {
+//             if (err)
+//                 reject(err);
+//             else
+//                 resolve(row);
+//         });
+//     });
+// };
+
 module.exports = db;
