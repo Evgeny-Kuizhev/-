@@ -50,6 +50,14 @@ class User {
         if (error) cb(error, null);
         else cb(null, {[column]: newValue});
     }
+
+    static async delete(id, cb) {
+        let error = null,
+            sql =`DELETE FROM User WHERE id=(?)`;
+        await db.runAsync(sql, [id]).catch(err => { error=err; });
+        if (error) cb(error, null);
+        else cb(null, {id});
+    }
 }
 
 
