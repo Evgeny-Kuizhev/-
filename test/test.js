@@ -50,7 +50,7 @@ describe('API', () => {
             .get('/api/v1/note/4/tags')
             .expect(200)
             .then(res => {
-                assert(res.body.tags, !undefined);
+                assert(res.body.notes, !undefined);
             })
         });
         it('TAGS should return all tags', () => {
