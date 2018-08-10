@@ -122,22 +122,22 @@ describe('API', () => {
             .delete('/api/v1/user/1')
             .expect(200).then( res => {
                 let b = res.body;
-                assert(b.user.username === 'Petya')
+                assert(b.message === 'Пользователь удален!')
             })
         });
         it('DELETE NOTE should deleted note', () => {
             return request
-            .post('/api/v1/note/3')
+            .delete('/api/v1/note/3')
             .expect(200).then(res => {
                 let b = res.body;
-                assert(b.note.title === 'Отдохнуть')
+                assert(b.success)
             })
         });
         it('DELETE TAG should return deleted tag', () => {
             return request
-            .post('/api/v1/tag/8')
+            .delete('/api/v1/tag/8')
             .expect(200).then(res => {
-                assert(res.body.tag.title === 'aims')
+                assert(res.body.success)
             })
         });
     });
