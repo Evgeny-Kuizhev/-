@@ -33,6 +33,14 @@ class Tag {
         if (error) cb(error, null);
         else cb(null, { title });
     }
+
+    static async delete(id, cb) {
+        let error = null,
+            sql =`DELETE FROM Tag WHERE id=(?)`;
+        await db.runAsync(sql, [id]).catch(err => { error=err; });
+        if (error) cb(error, null);
+        else cb(null, {id});
+    }
 }
 
 

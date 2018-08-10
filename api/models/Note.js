@@ -50,6 +50,14 @@ class Note {
         if (error) cb(error, null);
         else cb(null, {title: new_title});
     }
+
+    static async delete(id, cb) {
+        let error = null,
+            sql =`DELETE FROM Note WHERE id=(?)`;
+        await db.runAsync(sql, [id]).catch(err => { error=err; });
+        if (error) cb(error, null);
+        else cb(null, {id});
+    }
 }
 
 
