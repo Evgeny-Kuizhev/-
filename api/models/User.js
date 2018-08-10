@@ -23,7 +23,7 @@ class User {
         else cb(null, user);
     }
 
-    static async getUserNotes(id, cb) {
+    static async getNotes(id, cb) {
         let error = null,
             sql = 'SELECT * FROM Note WHERE user_id=?',
             notes = await db.allAsync(sql, id).catch(err => { error = err; });
