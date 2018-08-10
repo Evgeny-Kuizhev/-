@@ -26,7 +26,7 @@ exports.getOne = (req, res) => {
     User.getOne(req.params.id, cb);
 }
 
-exports.getUserNotes = (req, res) => {
+exports.getNotes = (req, res) => {
     if (!req.params || !req.params.id){
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
@@ -35,7 +35,7 @@ exports.getUserNotes = (req, res) => {
         if (!notes) return respond.failure(res, {message: 'Записи пользователя не найдены!'}, 404);
         respond.success(res, {notes, message: 'Записи пользователя получены!'});
     }
-    User.getUserNotes(req.params.id, cb);
+    User.getNotes(req.params.id, cb);
 }
 
 exports.create = (req, res) => {
@@ -78,4 +78,8 @@ exports.change = (req, res) => {
     } else {
         respond.failure(res, {message: 'Плохой запрос!'}, 400);
     }
+}
+
+exports.delete = (req, res) => {
+
 }
