@@ -81,5 +81,13 @@ exports.change = (req, res) => {
 }
 
 exports.delete = (req, res) => {
-
+    if (!req.params || !req.params.id){
+        return respond.failure(res, {message: 'Плохой запрос'}, 400);
+    }
+    function cb(err, user) {
+        if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
+        if (!user) return respond.failure(res, {message: 'Нет такого пользователя для удаления!'}, 404);
+        respond.success(res, {user, message: 'Пользователь удален!'});
+    }
+    User.delete(req.params.id, cb);
 }
