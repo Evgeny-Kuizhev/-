@@ -9,20 +9,22 @@ const
 
 // ---------------USER ROUTES--------------- //
 router.get('/users', userCntr.getAll);
-router.get('/user/:id', userCntr.getOne);
-router.get('/user/:id/notes', userCntr.getNotes);
 router.post('/user', userCntr.create);
-router.put('/user/:id', userCntr.change);
-router.delete('/user/:id', userCntr.delete);
+router.route('/user/:id')
+    .get(userCntr.getOne)
+    .put(userCntr.change)
+    .delete(userCntr.delete)
+router.get('/user/:id/notes', userCntr.getNotes);
 
 
 // ---------------NOTES ROUTES--------------- //
 router.get('/notes', noteCntr.getAll);
-router.get('/note/:id', noteCntr.getOne);
-router.get('/note/:id/tags', noteCntr.getTags);
 router.post('/note', noteCntr.create);
-router.put('/note/:id', noteCntr.change);
-router.delete('/note/:id', noteCntr.delete)
+router.route('/note/:id')
+    .get(noteCntr.getOne)
+    .put(noteCntr.change)
+    .delete(noteCntr.delete)
+router.get('/note/:id/tags', noteCntr.getTags);
 
 
 // ---------------TAGS ROUTES--------------- //
