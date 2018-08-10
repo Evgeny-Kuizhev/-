@@ -1,0 +1,502 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "API",
+    "description" : "API"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:3000/api/v1"
+  } ],
+  "paths" : {
+    "/users" : {
+      "get" : {
+        "summary" : "Returns of all users",
+        "responses" : {
+          "200" : {
+            "description" : "Пользователи полученны!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description" : "Пользователи не найдены!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/user": {
+      "post" : {
+        "summary" : "Create new user in system",
+        "requestBody" : {
+          "description" : "A user object",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Пользоваетль создан"
+          },
+          "400" : {
+            "description" : "Плохой запрос"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/user/{userId}" : {
+      "parameters" : [ {
+        "name" : "userId",
+        "in" : "path",
+        "required" : true,
+        "description" : "The ID of the user to return",
+        "schema" : {
+          "type" : "integer"
+        }
+      } ],
+      "get" : {
+        "summary" : "Returns a user by ID",
+        "responses" : {
+          "200" : {
+            "description" : "Пользователь получен!.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Плохой запрос"
+          },
+          "404" : {
+            "description" : "Пользователь не найден"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates a user by ID",
+        "responses" : {
+          "200":{
+            "description": "Данные обновленны!"
+          },
+          "400" : {
+            "description" : "Плохой запрос"
+          },
+          "404" : {
+            "description" : "Пользователь не найден"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Deletes a user by ID",
+        "responses" : {
+          "200" : {
+            "description" : "Пользователь был удален!"
+          },
+          "400" : {
+            "description" : "Плохой запрос"
+          },
+          "404" : {
+            "description" : "Пользователь не найден"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/user/{userId}/notes" : {
+      "parameters" : [ {
+        "name" : "userId",
+        "in" : "path",
+        "required" : true,
+        "description" : "The ID of the user to return",
+        "schema" : {
+          "type" : "integer"
+        }
+      } ],
+      "get" : {
+        "summary" : "Returns of all notes",
+        "responses" : {
+          "200" : {
+            "description" : "Записки полученны!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Note"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Записки не найдены!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/notes" : {
+      "get" : {
+        "summary" : "Returns of all notes",
+        "responses" : {
+          "200" : {
+            "description" : "Записки полученны!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Note"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Записки не найдены!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/note": {
+      "post" : {
+        "summary" : "Adds a new note",
+        "requestBody" : {
+          "description" : "Create a new note",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Note"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Записка создана!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/note/{noteId}" : {
+      "parameters" : [ {
+        "name" : "noteId",
+        "in" : "path",
+        "required" : true,
+        "description" : "The ID of the note to return",
+        "schema" : {
+          "type" : "integer"
+        }
+      } ],
+      "get" : {
+        "summary" : "Returns a note by ID",
+        "responses" : {
+          "200" : {
+            "description" : "Записка полученна!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Note"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Плохой запрос!"
+          },
+          "404" : {
+            "description" : "Записка не найдена!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Updates a note by ID",
+        "responses" : {
+          "200":{
+            "description": "Данные обновленны!"
+          },
+          "400" : {
+            "description" : "Плохой запрос"
+          },
+          "404" : {
+            "description" : "Записка не найдена"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Deletes a note by ID",
+        "responses" : {
+          "200" : {
+            "description" : "Записка был удалена!"
+          },
+          "400" : {
+            "description" : "Плохой запрос"
+          },
+          "404" : {
+            "description" : "Записка не найдена!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/note/{noteId}/tags" : {
+      "parameters" : [ {
+        "name" : "noteId",
+        "in" : "path",
+        "required" : true,
+        "description" : "The ID of the note to return",
+        "schema" : {
+          "type" : "integer"
+        }
+      } ],
+      "get" : {
+        "summary" : "Returns of all tags",
+        "responses" : {
+          "200" : {
+            "description" : "Теги полученны!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Tag"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Плохой запрос!"
+          },
+          "404" : {
+            "description" : "Теги не найдена!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/tags" : {
+      "get" : {
+        "summary" : "Returns of all tags",
+        "responses" : {
+          "200" : {
+            "description" : "Теги полученны!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Tag"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Теги не найдена!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/tag": {
+      "post" : {
+        "summary" : "Adds a new tag",
+        "requestBody" : {
+          "description" : "Create a new tag",
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Tag"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Тег создан!"
+          },
+          "400" : {
+            "description" : "Плохой запрос!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/tag/{tagId}/notes": {
+      "parameters" : [ {
+        "name" : "tagId",
+        "in" : "path",
+        "required" : true,
+        "description" : "The ID of the tag to return",
+        "schema" : {
+          "type" : "integer"
+        }
+      } ],
+      "get" : {
+        "summary" : "Returns of all notes by tag ID",
+        "responses" : {
+          "200" : {
+            "description" : "Записки полученны!",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Note"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Плохой запрос!"
+          },
+          "404" : {
+            "description" : "Записки не найдена!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    },
+    "/tag/{tagId}": {
+      "parameters" : [ {
+        "name" : "tagId",
+        "in" : "path",
+        "required" : true,
+        "description" : "The ID of the tag to return",
+        "schema" : {
+          "type" : "integer"
+        }
+      } ],
+      "delete" : {
+        "summary" : "Deletes a tag by ID",
+        "responses" : {
+          "200" : {
+            "description" : "Тег был удален!"
+          },
+          "400" : {
+            "description" : "Плохой запрос!"
+          },
+          "404" : {
+            "description" : "Записки не найдена!"
+          },
+          "500": {
+            "description" : "Ошибка бд!"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "username" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "number"
+          },
+          "notes_count" : {
+            "type" : "integer"
+          },
+          "birthday" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }
+      },
+      "Note" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "user_id" : {
+            "type" : "integer"
+          },
+          "tags_count" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "Tag" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "title" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
