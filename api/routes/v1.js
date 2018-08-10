@@ -31,7 +31,7 @@ router.get('/note/:id/tags', noteCntr.getTags);
 router.get('/tags', tagCntr.getAll);
 router.get('/tag/:id/notes', tagCntr.getNotes);
 router.post('/tag', tagCntr.create);
-router.delete('/tag/:id', tagCntr.delete)
+router.delete('/tag/:id', tagCntr.delete);
 
 
 module.exports = router;
