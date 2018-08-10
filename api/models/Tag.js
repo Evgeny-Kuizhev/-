@@ -14,15 +14,15 @@ class Tag {
         else cb(null, tags);
     }
 
-    static async getNoteTags(id, cb) {
+    static async getNotes(id, cb) {
         let error = null,
-            sql = `select Tag.* from Note_Tag
-                    inner join Tag on Note_Tag.tag_id=Tag.id
-                    where Note_Tag.note_id=?`,
-            tags = await db.allAsync(sql, id).catch(err => { error = err; });
+            sql = `select Note.* from Note_Tag
+                inner join Note on Note_Tag.note_id=Note.id
+                where Note_Tag.tag_id=?`,
+            notes = await db.allAsync(sql, id).catch(err => { error = err; });
 
         if (error) cb(error, null);
-        else cb(null, tags);
+        else cb(null, notes);
     }
 
     static async create(title, cb) {
