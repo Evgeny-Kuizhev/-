@@ -123,7 +123,7 @@ describe('API', () => {
             .expect(200).then( res => {
                 let b = res.body;
                 assert(b.message === 'Пользователь удален!')
-            })
+            });
         });
         it('DELETE NOTE should deleted note', () => {
             return request
@@ -131,14 +131,14 @@ describe('API', () => {
             .expect(200).then(res => {
                 let b = res.body;
                 assert(b.success)
-            })
+            });
         });
         it('DELETE TAG should return deleted tag', () => {
             return request
             .delete('/api/v1/tag/8')
             .expect(200).then(res => {
                 assert(res.body.success)
-            })
+            });
         });
     });
 });
