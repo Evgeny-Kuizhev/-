@@ -10,6 +10,7 @@ describe('Pages', () => {
     it('GET /features should return status code 200', done => {request.get('/features').expect(200, done)});
     it('GET /news should return status code 200', done => { request.get('/news').expect(200, done)});
 });
+
 describe('API', () => {
     describe('GET /api/v1', () => {
         it('USERS should return all users', () => {
