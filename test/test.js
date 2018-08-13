@@ -16,29 +16,29 @@ describe('API', () => {
             return request
             .get('/api/v1/users')
             .expect(200)
-            .then(res => assert(res.body.users, !undefined));
+            .then(res => assert(res.body.success));
         });
         it('USERS:1 should return user with id = 1', () => {
             return request
-            .get('/api/v1/user/1')
+            .get('/api/v1/users/1')
             .expect(200)
             .then(res => assert(res.body.user.id, 1));
         });
         it('USERS:1/NOTES should return user\'s notes', () => {
             return request
-            .get('/api/v1/user/1/notes')
+            .get('/api/v1/users/1/notes')
             .expect(200)
-            .then(res => assert(res.body.notes, !undefined));
+            .then(res => assert(res.body.success));
         });
         it('NOTES should all notes', () => {
             return request
             .get('/api/v1/notes')
             .expect(200)
-            .then(res => assert(res.body.notes, !undefined));
+            .then(res => assert(res.body.success));
         });
         it('NOTES:2 should return note with id = 2', () => {
             return request
-            .get('/api/v1/note/2')
+            .get('/api/v1/notes/2')
             .expect(200)
             .then(res => {
                 assert(res.body.note.id, 2);
@@ -46,30 +46,30 @@ describe('API', () => {
         });
         it('NOTES should return tag\'s', () => {
             return request
-            .get('/api/v1/note/4/tags')
+            .get('/api/v1/notes/4/tags')
             .expect(200)
             .then(res => {
-                assert(res.body.tags, !undefined);
+                assert(res.body.success);
             })
         });
         it('TAGS should return all tags', () => {
             return request
             .get('/api/v1/tags')
             .expect(200)
-            .then(res => assert(res.body.tags, !undefined));
+            .then(res => assert(res.body.success));
         });
         it('TAGS should return note\'s', () => {
             return request
-            .get('/api/v1/tag/7/notes')
+            .get('/api/v1/tags/7/notes')
             .expect(200)
-            .then(res => assert(res.body.notes, !undefined));
+            .then(res => assert(res.body.success));
         });
     });
 
     describe('POST /api/v1', () => {
         it('CREATE USER should return new user', () => {
             return request
-            .post('/api/v1/user')
+            .post('/api/v1/users')
             .send({"username": 'Evgeny', "email": 'evgen@yandex.ru'})
             .expect(200).then( res => {
                 let b = res.body;
@@ -78,7 +78,7 @@ describe('API', () => {
         });
         it('CREATE NOTE should new note', () => {
             return request
-            .post('/api/v1/note')
+            .post('/api/v1/notes')
             .send({title: 'Начать есть кашу по утрам', user_id: 7})
             .expect(200).then(res => {
                 let b = res.body;
@@ -87,7 +87,7 @@ describe('API', () => {
         });
         it('CREATE TAG should return new tag', () => {
             return request
-            .post('/api/v1/tag')
+            .post('/api/v1/tags')
             .send({title: 'taganrog'})
             .expect(200).then(res => {
                 assert(res.body.tag.title === 'taganrog')
@@ -98,8 +98,8 @@ describe('API', () => {
     describe('PUT /api/v1', () => {
         it('CHANGE USER should return new user', () => {
             return request
-            .put('/api/v1/user/1')
-            .send({"new_username": 'Petya2' })
+            .put('/api/v1/users/1')
+            .send({"username": 'Petya2', "phone": 12451425 })
             .expect(200).then( res => {
                 let b = res.body;
                 assert(b.updated.username === 'Petya2')
@@ -107,7 +107,7 @@ describe('API', () => {
         });
         it('CHANGE NOTE should new note', () => {
             return request
-            .put('/api/v1/note/3')
+            .put('/api/v1/notes/3')
             .send({new_title: 'Съездить в отпуск'})
             .expect(200).then(res => {
                 let b = res.body;
@@ -119,7 +119,7 @@ describe('API', () => {
     describe('DELETE /api/v1', () => {
         it('DELETE USER should return deleted user', () => {
             return request
-            .delete('/api/v1/user/1')
+            .delete('/api/v1/users/3')
             .expect(200).then( res => {
                 let b = res.body;
                 assert(b.message === 'Пользователь удален!')
@@ -127,7 +127,7 @@ describe('API', () => {
         });
         it('DELETE NOTE should deleted note', () => {
             return request
-            .delete('/api/v1/note/3')
+            .delete('/api/v1/notes/3')
             .expect(200).then(res => {
                 let b = res.body;
                 assert(b.success)
@@ -135,7 +135,7 @@ describe('API', () => {
         });
         it('DELETE TAG should return deleted tag', () => {
             return request
-            .delete('/api/v1/tag/8')
+            .delete('/api/v1/tags/8')
             .expect(200).then(res => {
                 assert(res.body.success)
             });

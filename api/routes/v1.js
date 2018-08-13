@@ -9,29 +9,29 @@ const
 
 // ---------------USER ROUTES--------------- //
 router.get('/users', userCntr.getAll);
-router.post('/user', userCntr.create);
-router.route('/user/:id')
+router.post('/users', userCntr.create);
+router.route('/users/:id')
     .get(userCntr.getOne)
-    .put(userCntr.change)
+    .put(userCntr.update)
     .delete(userCntr.delete)
-router.get('/user/:id/notes', userCntr.getNotes);
+router.get('/users/:id/notes', userCntr.getNotes);
 
 
 // ---------------NOTES ROUTES--------------- //
 router.get('/notes', noteCntr.getAll);
-router.post('/note', noteCntr.create);
-router.route('/note/:id')
+router.post('/notes', noteCntr.create);
+router.route('/notes/:id')
     .get(noteCntr.getOne)
-    .put(noteCntr.change)
+    .put(noteCntr.update)
     .delete(noteCntr.delete)
-router.get('/note/:id/tags', noteCntr.getTags);
+router.get('/notes/:id/tags', noteCntr.getTags);
 
 
 // ---------------TAGS ROUTES--------------- //
 router.get('/tags', tagCntr.getAll);
-router.get('/tag/:id/notes', tagCntr.getNotes);
-router.post('/tag', tagCntr.create);
-router.delete('/tag/:id', tagCntr.delete);
+router.get('/tags/:id/notes', tagCntr.getNotes);
+router.post('/tags', tagCntr.create);
+router.delete('/tags/:id', tagCntr.delete);
 
 
 module.exports = router;
