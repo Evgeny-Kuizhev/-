@@ -14,12 +14,12 @@ class Tag {
         else cb(null, tags);
     }
 
-    static async getNotes(id, cb) {
+    static async getNotes(tagId, cb) {
         let error = null,
             sql = `select Note.* from Note_Tag
                 inner join Note on Note_Tag.note_id=Note.id
                 where Note_Tag.tag_id=?`,
-            notes = await db.allAsync(sql, id).catch(err => { error = err; });
+            notes = await db.allAsync(sql, tagId).catch(err => { error = err; });
 
         if (error) cb(error, null);
         else cb(null, notes);
@@ -34,12 +34,12 @@ class Tag {
         else cb(null, { title });
     }
 
-    static async delete(id, cb) {
+    static async delete(tagId, cb) {
         let error = null,
             sql =`DELETE FROM Tag WHERE id=(?)`;
-        await db.runAsync(sql, [id]).catch(err => { error=err; });
+        await db.runAsync(sql, [tagId]).catch(err => { error=err; });
         if (error) cb(error, null);
-        else cb(null, {id});
+        else cb(null, {tagId});
     }
 }
 

@@ -14,19 +14,19 @@ class User {
         else cb(null, users);
     }
 
-    static async getOne(id, cb) {
+    static async getOne(userId, cb) {
         let error = null,
             sql = 'SELECT * FROM User WHERE id=?',
-            user = await db.getAsync(sql, id).catch(err => { error = err; });
+            user = await db.getAsync(sql, userId).catch(err => { error = err; });
 
         if (error) cb(error, null);
         else cb(null, user);
     }
 
-    static async getNotes(id, cb) {
+    static async getNotes(userId, cb) {
         let error = null,
             sql = 'SELECT * FROM Note WHERE user_id=?',
-            notes = await db.allAsync(sql, id).catch(err => { error = err; });
+            notes = await db.allAsync(sql, userId).catch(err => { error = err; });
 
         if (error) cb(error, null);
         else cb(null, notes);
@@ -43,20 +43,26 @@ class User {
         else cb(null, {username, email, phone, birthday});
     }
 
-    static async update(column, newValue, id, cb) {
+    static async update(updateFields, userId, cb) {
+        let [colomns, values] = [ '', [] ];
+        for (let colomn in updateFields) {
+            colomns += `${colomn} = (?),`;
+            values.push(updateFields[colomn]);
+        }
+        colomns = colomns.slice(0, -1);
         let error = null,
-            sql =`UPDATE User SET ${column} = (?) WHERE id=(?)`;
-        await db.runAsync(sql, [newValue, id]).catch(err => { error=err; });
+            sql =`UPDATE User SET ${colomns} WHERE id=(?)`;
+        await db.runAsync(sql, [...values, userId]).catch(err => { error=err; });
         if (error) cb(error, null);
-        else cb(null, {[column]: newValue});
+        else cb(null, updateFields);
     }
 
-    static async delete(id, cb) {
+    static async delete(userId, cb) {
         let error = null,
             sql =`DELETE FROM User WHERE id=(?)`;
-        await db.runAsync(sql, [id]).catch(err => { error=err; });
+        await db.runAsync(sql, [userId]).catch(err => { error=err; });
         if (error) cb(error, null);
-        else cb(null, {id});
+        else cb(null, {userId});
     }
 }
 

@@ -14,49 +14,49 @@ class Note {
         else cb(null, notes);
     }
 
-    static async getOne(id, cb) {
+    static async getOne(noteId, cb) {
         let error = null,
             sql = 'SELECT * FROM Note WHERE id=? LIMIT 1',
-            note = await db.getAsync(sql, id).catch(err => { error = err; });
+            note = await db.getAsync(sql, noteId).catch(err => { error = err; });
 
         if (error) cb(error, null);
         else cb(null, note);
     }
 
-    static async getTags(id, cb) {
+    static async getTags(noteId, cb) {
         let error = null,
             sql = `select Tag.* from Note_Tag
                     inner join Tag on Note_Tag.tag_id=Tag.id
                     where Note_Tag.note_id=?`,
-            tags = await db.allAsync(sql, id).catch(err => { error = err; });
+            tags = await db.allAsync(sql, noteId).catch(err => { error = err; });
 
         if (error) cb(error, null);
         else cb(null, tags);
     }
 
-    static async create(user_id, title, cb) {
+    static async create(userId, title, cb) {
         let error = null,
             sql =`INSERT INTO Note (user_id, title) VALUES
                     ((?), (?))`;
-        await db.allAsync(sql, [user_id, title]).catch(err => { error = err; });
+        await db.allAsync(sql, [userId, title]).catch(err => { error = err; });
         if (error) cb(error, null);
-        else cb(null, {user_id, title});
+        else cb(null, {userId, title});
     }
 
-    static async change (id, new_title, cb) {
+    static async update (noteId, newTitle, cb) {
         let error = null,
             sql =`UPDATE Note SET title = (?) WHERE id=(?)`;
-        await db.runAsync(sql, [new_title, id]).catch(err => { error=err; });
+        await db.runAsync(sql, [newTitle, noteId]).catch(err => { error=err; });
         if (error) cb(error, null);
-        else cb(null, {title: new_title});
+        else cb(null, {title: newTitle});
     }
 
-    static async delete(id, cb) {
+    static async delete(noteId, cb) {
         let error = null,
             sql =`DELETE FROM Note WHERE id=(?)`;
-        await db.runAsync(sql, [id]).catch(err => { error=err; });
+        await db.runAsync(sql, [noteId]).catch(err => { error=err; });
         if (error) cb(error, null);
-        else cb(null, {id});
+        else cb(null, {noteId});
     }
 }
 
