@@ -54,11 +54,11 @@ exports.create = (req, res) => {
     User.create(b.username, b.email, b.phone, b.birthday, cb);
 }
 
-exports.change = (req, res) => {
-    if (!req.params || !req.params.id){
+exports.update = (req, res) => {
+    const [b, userId] = [req.body, req.params.id];
+    if (!b || !req.params || !req.params.id){
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
-    const [b, id] = [req.body, req.params.id];
     function cb(err, updated) {
         if (err) {
             if (err.code === "SQLITE_CONSTRAINT")
@@ -67,17 +67,29 @@ exports.change = (req, res) => {
         }
         respond.success(res, {updated, message: 'Данные обновленны!'});
     }
-    if (b.new_username) {
-        User.update('username', b.new_username, id, cb);
-    } else if (b.new_email) {
-        User.update('email', b.new_email, id, cb);
-    } else if (b.new_phone) {
-        User.update('phone', b.new_phone, id, cb);
-    } else if (b.new_birthday) {
-        User.update('birthday', b.new_birthday, id, cb);
-    } else {
-        respond.failure(res, {message: 'Плохой запрос!'}, 400);
+    const updateFields = {
+        username: b.username,
+        email: b.email,
+        phone: b.phone,
+        birthday: b.birthday
     }
+    for (let prop in updateFields) {
+        if(!updateFields[prop])
+            delete updateFields[prop];
+    }
+    User.update(updateFields, userId, cb)
+
+    // if (b.username) {
+    //     User.update('username', b.username, userId, cb);
+    // } else if (b.new_email) {
+    //     User.update('email', b.new_email, userId, cb);
+    // } else if (b.new_phone) {
+    //     User.update('phone', b.new_phone, userId, cb);
+    // } else if (b.new_birthday) {
+    //     User.update('birthday', b.new_birthday, userId, cb);
+    // } else {
+    //     respond.failure(res, {message: 'Плохой запрос!'}, 400);
+    // }
 }
 
 exports.delete = (req, res) => {

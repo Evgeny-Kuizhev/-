@@ -51,9 +51,9 @@ exports.create = (req, res) => {
     Note.create(b.user_id, b.title, cb);
 }
 
-exports.change = (req, res) => {
+exports.update = (req, res) => {
     const [b, p] = [req.body, req.params];
-    if (!b, !p, !b.new_title, !p.id) {
+    if (!b || !p || !b.new_title || !p.id) {
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
     function cb(err, updated) {
@@ -61,7 +61,7 @@ exports.change = (req, res) => {
         //if (!note) return respond.failure(res, {message: 'Записка не создана!'}, 404);
         respond.success(res, {updated, message: 'Записка обновленна!'});
     }
-    Note.change(p.id, b.new_title, cb);
+    Note.update(p.id, b.new_title, cb);
 }
 
 exports.delete = (req, res) => {
