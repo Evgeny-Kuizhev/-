@@ -70,7 +70,7 @@ describe('API', () => {
         it('CREATE USER should return new user', () => {
             return request
             .post('/api/v1/users')
-            .send({"username": 'Evgeny', "email": 'evgen@yandex.ru'})
+            .send({"username": 'Evgeny', "email": 'evgen@yandex.ru', password: "password123"})
             .expect(200).then( res => {
                 let b = res.body;
                 assert(b.user.username === 'Evgeny')
@@ -108,7 +108,7 @@ describe('API', () => {
         it('CHANGE NOTE should new note', () => {
             return request
             .put('/api/v1/notes/3')
-            .send({new_title: 'Съездить в отпуск'})
+            .send({title: 'Съездить в отпуск'})
             .expect(200).then(res => {
                 let b = res.body;
                 assert(b.updated.title === 'Съездить в отпуск')

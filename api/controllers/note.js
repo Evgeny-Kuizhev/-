@@ -53,7 +53,7 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
     const [b, p] = [req.body, req.params];
-    if (!b || !p || !b.new_title || !p.id) {
+    if (!b || !p || !b.title || !p.id) {
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
     function cb(err, updated) {
@@ -61,7 +61,7 @@ exports.update = (req, res) => {
         //if (!note) return respond.failure(res, {message: 'Записка не создана!'}, 404);
         respond.success(res, {updated, message: 'Записка обновленна!'});
     }
-    Note.update(p.id, b.new_title, cb);
+    Note.update(p.id, b.title, cb);
 }
 
 exports.delete = (req, res) => {
