@@ -32,11 +32,11 @@ class User {
         else cb(null, notes);
     }
 
-    static async create(username, email, phone=null, birthday=null, cb) {
+    static async create(username, email, password, phone=null, birthday=null, cb) {
         let error = null,
-            sql =`INSERT INTO User (username, email, phone, birthday) VALUES
-                    ((?), (?), (?), (?))`,
-            params = [username, email, phone, birthday];
+            sql =`INSERT INTO User (username, email, password, phone, birthday) VALUES
+                    ((?), (?), (?), (?), (?))`,
+            params = [username, email, password, phone, birthday];
         await db.runAsync(sql, params).catch(err => { error=err; });
 
         if (error) cb(error, null);

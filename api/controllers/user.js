@@ -40,8 +40,8 @@ exports.getNotes = (req, res) => {
 
 exports.create = (req, res) => {
     const b = req.body;
-    if (!b || !b.username || !b.email) {
-        return respond.failure(res, {message: 'Имя и емайл обязательные поля!'}, 400);
+    if (!b || !b.username || !b.email || !b.password) {
+        return respond.failure(res, {message: 'Имя, емайл и пароль обязательные поля!'}, 400);
     }
     function cb(err, user) {
         if (err) {
@@ -51,21 +51,13 @@ exports.create = (req, res) => {
         }
         respond.success(res, {user, message: 'Пользователь создан!!'});
     }
-    User.create(b.username, b.email, b.phone, b.birthday, cb);
+    User.create(b.username, b.email, b.password, b.phone, b.birthday, cb);
 }
 
 exports.update = (req, res) => {
     const [b, userId] = [req.body, req.params.id];
     if (!b || !req.params || !req.params.id){
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
-    }
-    function cb(err, updated) {
-        if (err) {
-            if (err.code === "SQLITE_CONSTRAINT")
-                return respond.failure(res, {message: "Уже существует, придумайте уникальное"}, 400);
-            return respond.failure(res, {message: "Бд вернула ошибку"}, 500);
-        }
-        respond.success(res, {updated, message: 'Данные обновленны!'});
     }
     const updateFields = {
         username: b.username,
@@ -77,19 +69,19 @@ exports.update = (req, res) => {
         if(!updateFields[prop])
             delete updateFields[prop];
     }
-    User.update(updateFields, userId, cb)
+    if (!Object.keys(updateFields).length)
+        return respond.failure(res, {message: 'Плохой запрос'}, 400);
 
-    // if (b.username) {
-    //     User.update('username', b.username, userId, cb);
-    // } else if (b.new_email) {
-    //     User.update('email', b.new_email, userId, cb);
-    // } else if (b.new_phone) {
-    //     User.update('phone', b.new_phone, userId, cb);
-    // } else if (b.new_birthday) {
-    //     User.update('birthday', b.new_birthday, userId, cb);
-    // } else {
-    //     respond.failure(res, {message: 'Плохой запрос!'}, 400);
-    // }
+    function cb(err, updated) {
+        if (err) {
+            if (err.code === "SQLITE_CONSTRAINT")
+                return respond.failure(res, {message: "Уже существует, придумайте уникальное"}, 400);
+            return respond.failure(res, {message: "Бд вернула ошибку"}, 500);
+        }
+        respond.success(res, {updated, message: 'Данные обновленны!'});
+    }
+
+    User.update(updateFields, userId, cb)
 }
 
 exports.delete = (req, res) => {
