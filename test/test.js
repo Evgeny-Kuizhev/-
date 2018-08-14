@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 let request = require('supertest');
 request = request('http://localhost:3000');

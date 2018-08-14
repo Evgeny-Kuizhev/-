@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const headers = {
     "access-control-allow-origin": "*",
