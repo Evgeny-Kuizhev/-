@@ -1,15 +1,23 @@
 'use strict';
 
+const 
+    bcrypt = require('bcrypt'),
+    saltRounds = 10,
+    myPlaintextPassword = 'password123',
+    salt = bcrypt.genSaltSync(saltRounds),
+    passwordHash = bcrypt.hashSync(myPlaintextPassword, salt);
+
+
 module.exports = (db) => {
     // Users
     db.run(`INSERT INTO User (username, password, email, phone, birthday) VALUES
-        ("Petya", "password123", "pet@yandex.ru", 89896348563, NULL),
-        ("Vasya", "password123", "vas@yandex.ru", 89896311163, "11.15.1999"),
-        ("Kolya", "password123", "kol@yandex.ru", NULL, NULL),
-        ("Dasha", "password123", "dash@yandex.ru", 89596348513, NULL),
-        ("Lena", "password123", "len@yandex.ru", NULL, "03.04.1995"),
-        ("Vanya", "password123", "van@yandex.ru", 79896344443, NULL),
-        ("Marina", "password123", "mar@yandex.ru", 89896343333, "01.02.2001");
+        ("Petya", "${passwordHash}", "pet@yandex.ru", 89896348563, NULL),
+        ("Vasya", "${passwordHash}", "vas@yandex.ru", 89896311163, "11.15.1999"),
+        ("Kolya", "${passwordHash}", "kol@yandex.ru", NULL, NULL),
+        ("Dasha", "${passwordHash}", "dash@yandex.ru", 89596348513, NULL),
+        ("Lena", "${passwordHash}", "len@yandex.ru", NULL, "03.04.1995"),
+        ("Vanya", "${passwordHash}", "van@yandex.ru", 79896344443, NULL),
+        ("Marina", "${passwordHash}", "mar@yandex.ru", 89896343333, "01.02.2001");
         `, (err) => console.log(err)
     );
 
