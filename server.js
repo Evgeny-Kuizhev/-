@@ -12,6 +12,9 @@ const
 
     app = express();
 
+
+require('./authenticate').init();
+// Конфигурация passport
 app.use(session({
     store: new RedisStore({
         url: 'redis://localhost'
