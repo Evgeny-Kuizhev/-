@@ -6,23 +6,21 @@ const LocalStrategy = require('passport-local').Strategy
 
 const authenticationMiddleware = require('./middleware')
 
-// Generate Password
-const saltRounds = 10
-const myPlaintextPassword = 'my-password'
-const salt = bcrypt.genSaltSync(saltRounds)
-const passwordHash = bcrypt.hashSync(myPlaintextPassword, salt)
+const db = require('../database/db');
 
-const user = {
-  username: 'test-user',
-  passwordHash,
-  id: 1
-}
 
 function findUser (username, callback) {
-  if (username === user.username) {
-    return callback(null, user)
-  }
-  return callback(null)
+
+    let sql = `select * from User where username="${username}"`;
+
+    db.serialize( () => {
+        db.get(sql, (err, user) => {
+            if (err)
+                return callback(err);
+            else
+                return callback(null, user)
+        });
+    })
 }
 
 passport.serializeUser(function (user, cb) {
@@ -46,9 +44,8 @@ function initPassport () {
           console.log('User not found')
           return done(null, false)
         }
-
         // Always use hashed passwords and fixed time comparison
-        bcrypt.compare(password, user.passwordHash, (err, isValid) => {
+        bcrypt.compare(password, user.password, (err, isValid) => {
           if (err) {
             return done(err)
           }

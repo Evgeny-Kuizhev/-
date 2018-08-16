@@ -14,6 +14,7 @@ const
 
 
 require('./authenticate').init();
+
 // Конфигурация passport
 app.use(session({
     store: new RedisStore({

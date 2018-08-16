@@ -4,19 +4,14 @@ const
     router = require('express').Router(),
     userCntr = require('../controllers/user'),
     noteCntr = require('../controllers/note'),
-    tagCntr = require('../controllers/tag'),
-
-    passport = require('passport');
-
+    tagCntr = require('../controllers/tag');
 
 // ---------------USER ROUTES--------------- //
 router.get('/users', userCntr.getAll);
 router.post('/users', userCntr.create);
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/profile',
-    failureRedirect: '/'
-  }), userCntr.create);
-  
+
+
+
 router.route('/users/:id')
     .get(userCntr.getOne)
     .put(userCntr.update)
