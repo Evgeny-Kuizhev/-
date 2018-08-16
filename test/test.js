@@ -7,8 +7,6 @@ const assert = require('assert');
 
 describe('Pages', () => {
     it('GET / should return status code 200', done => {request.get('/').expect(200, done)});
-    it('GET /features should return status code 200', done => {request.get('/features').expect(200, done)});
-    it('GET /news should return status code 200', done => { request.get('/news').expect(200, done)});
 });
 describe('API', () => {
     describe('GET /api/v1', () => {

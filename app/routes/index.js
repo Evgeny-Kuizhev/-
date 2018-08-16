@@ -8,9 +8,7 @@ const express = require('express'),
     passport = require('passport');
 
 
-router.get('/', (req, res) => res.render('home') );
-router.get('/features', (req, res) => res.render('features') );
-router.get('/news', (req, res) => res.render('news') );
+router.get('/', (req, res) => res.render('user/pages/home', {home: true}) );
 
 router.get('/logout', (req, res) => {
     req.logOut();
@@ -19,13 +17,14 @@ router.get('/logout', (req, res) => {
 
 router.get('/profile', authenticationMiddleware, renderProfile);
 
-router.get('/login', (req, res) => res.render('login') );
+router.get('/login', (req, res) => res.render('user/pages/login', {login: true}) );
 
 function renderProfile (req, res) {
-    res.render('profile', {
+    res.render('user/pages/profile', {
+        profile: true,
         username: req.user.username
-      })
-  }
+    });
+}
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/profile',
