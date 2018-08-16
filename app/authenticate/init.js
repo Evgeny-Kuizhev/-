@@ -14,12 +14,7 @@ function findUser (username, callback) {
     let sql = `select * from User where username="${username}"`;
 
     db.serialize( () => {
-        db.get(sql, (err, user) => {
-            if (err)
-                return callback(err);
-            else
-                return callback(null, user)
-        });
+        db.get(sql, callback);
     })
 }
 

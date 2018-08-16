@@ -4,7 +4,7 @@ const
     express = require('express'),
     bodyParser = require('body-parser'),
     logger = require('morgan'),
-    routes = require('./api/routes/'),
+    routes = require('./routes/'),
 
     passport = require('passport'),
     session = require('express-session'),
@@ -28,11 +28,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // set the view engine to ejs
-app.set('views', `${__dirname}/views`);
+app.set('views', `${__dirname}/../views`);
 app.set('view engine', 'ejs');
 
 // set path for static assets
-app.use(express.static(`${__dirname}/public`));
+app.use(express.static(`${__dirname}/../public`));
 
 // enable logger
 app.use(logger('dev'));
@@ -44,13 +44,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // handlers routes
 app.use('/', routes);
+
+app.use(function(err, req, res) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
 app.use('*', (req, res) => {
     res.status(404);
     res.render('not-found');
 });
 
-// starting server
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 module.exports = app;
