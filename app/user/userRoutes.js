@@ -9,10 +9,12 @@ function init(app) {
     app.get('/profile', passport.authenticationMiddleware, userCntr.renderProfile);
     app.get('/login', (req, res) => res.render('user/pages/login', {login: true}) );
 
-    app.post('/login', passport.authenticate('local', {
+    app.post('/login', passport.authenticate('local-login', {
         successRedirect: '/profile',
         failureRedirect: '/login'
     }));
+
+    app.get('/signup', (req, res) => res.render('user/pages/signup', {signup: true}) );
 
     app.get('/logout', (req, res) => {
         req.logOut();

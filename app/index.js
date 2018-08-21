@@ -54,7 +54,7 @@ require('./user').init(app);
 require('./note').init(app);
 require('./tag').init(app);
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something broke!');
 });

@@ -1,7 +1,25 @@
-<h3>Login</h3>
+<h2>Login Form</h2>
 
-<form action="/login" method="post">
-    <input name="username" id="username" type="text" placeholder="Your username" />
-    <input name="password" id="password" type="password" placeholder="Your password"/>
-    <input type="submit" />
+<form class="login" action="/login" method="POST">
+  <div class="imgcontainer">
+    <img src="/images/img_avatar2.png" alt="Avatar" class="avatar">
+  </div>
+
+  <div class="container">
+    <label for="email"><b>Email</b></label>
+    <input class="input-text" type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="password"><b>Password</b></label>
+    <input class="input-passordw" type="password" placeholder="Enter Password" name="password" required>
+
+    <button type="submit">Login</button>
+    <label>
+      <input type="checkbox" checked="checked" name="remember"> Remember me
+    </label>
+  </div>
+
+  <div class="container" style="background-color:#f1f1f1">
+    <button class="login-cancel-btn" type="button" >Cancel</button>
+    <span class="psw">Forgot <a href="#">password?</a></span>
+  </div>
 </form>
