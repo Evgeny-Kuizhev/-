@@ -1,8 +1,3 @@
--- изменяю таблицу пользователь и добавляю столбец
--- кол-во записей со значением 0
-ALTER TABLE User
-ADD notes_count INTEGER DEFAULT 0;
-
 -- создаю триггер увеличение записей
 CREATE TRIGGER incr_notes_count
 AFTER INSERT ON Note

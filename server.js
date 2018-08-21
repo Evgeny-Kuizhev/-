@@ -1,13 +1,11 @@
+'use strict'
+
 const
     express = require('express'),
     bodyParser = require('body-parser'),
     logger = require('morgan'),
-    Promise = require('bluebird'),
-    routes = require('./routes/'),
-    app = express(),
-
-    sqlite3 = require('sqlite3').verbose(),
-    db = new  sqlite3.Database('./db.sqlite', () =>  db.run('PRAGMA foreign_keys=on') );
+    routes = require('./api/routes/'),
+    app = express();
 
 
 // set the view engine to ejs
@@ -27,24 +25,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // handlers routes
 app.use('/', routes);
-app.use('*', (req, res) => res.render('not-found'));
+app.use('*', (req, res) => {
+    res.status(404);
+    res.render('not-found');
+});
 
 // starting server
 const PORT = 3000;
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-const seed = require('./seed');
-
-db.serialize( async () => {
-    db.get('PRAGMA foreign_keys', (err, res) => {
-        if (err) throw err;
-        console.log('Default PRAGMA switched to ' + res.foreign_keys);
-    });
-
-    //db.serialize( () => seed(db) );
-
-    db.get('SELECT "SELECT" `SELECT`', (err, row) => {
-        if (err) throw err;
-        console.log('DB connected');
-        app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
-    });
-});
+module.exports = app;

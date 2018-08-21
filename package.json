@@ -2,10 +2,10 @@
   "name": "notes-project",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test/test.js"
   },
   "repository": {
     "type": "git",
@@ -28,5 +28,9 @@
     "save": "^2.3.2",
     "sqlite": "^2.9.2",
     "sqlite3": "^4.0.2"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "supertest": "^3.1.0"
   }
 }
