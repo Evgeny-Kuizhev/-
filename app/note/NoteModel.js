@@ -2,9 +2,7 @@
 
 const db = require('../database/db');
 
-
 class Note {
-
     static async getAll(cb) {
         let error = null,
             sql = 'SELECT * FROM Note',
