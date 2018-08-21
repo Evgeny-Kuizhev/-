@@ -1,8 +1,8 @@
 'use strict';
 
 const
-    respond = require('./helpfullRespond'),
-    Tag = require('../models/Tag');
+    respond = require('../helpfull functions').respond,
+    Tag = require('./TagModel');
 
 
 exports.getAll = (req, res) => {

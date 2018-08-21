@@ -1,11 +1,12 @@
 'use strict';
 
 const
-    respond = require('../helpfull functions/respond'),
-    User = require('../models/User');
-
+    respond = require('../helpfull functions').respond,
+    User = require('./UserModel');
+    
 
 exports.getAll = (req, res) => {
+    console.log('get all');
     function cb(err, users) {
         if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
         if (!users) return respond.failure(res, {message: 'Пользователи не найдены!'}, 404);
@@ -98,6 +99,7 @@ exports.delete = (req, res) => {
 
 
 exports.renderProfile = (req, res) => {
+    delete req.user.password;
     res.render('user/pages/profile', {
         profile: true,
         username: req.user.username

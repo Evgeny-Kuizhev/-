@@ -6,7 +6,6 @@ const
     bodyParser = require('body-parser'),
     exphbs = require('express-handlebars'),
     logger = require('morgan'),
-    routes = require('./routes/'),
 
     passport = require('passport'),
     session = require('express-session'),
@@ -53,13 +52,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // handlers routes
 require('./user').init(app);
+require('./note').init(app);
+require('./tag').init(app);
 
-app.use((err, req, res, next) => {
-    if (err.isServer) {
-      return res.status(500).send('Something broke!');
-    }
-    return res.status(err.output.statusCode).json(err.output.payload);
-  })
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 app.use((req, res, next) => {
     res.status(404).send('Sorry cant find that!');
