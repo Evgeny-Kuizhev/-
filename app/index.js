@@ -13,6 +13,9 @@ const
 
     app = express();
 
+// enable body parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 require('./authenticate').init();
 
@@ -46,10 +49,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
 
-// enable body parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // handlers routes
 require('./user').init(app);
 require('./note').init(app);
@@ -58,10 +57,6 @@ require('./tag').init(app);
 app.use(function(err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Something broke!');
-});
-
-app.use((req, res, next) => {
-    res.status(404).send('Sorry cant find that!');
 });
 
 app.use('*', (req, res) => {
