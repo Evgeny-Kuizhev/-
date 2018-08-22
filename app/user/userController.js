@@ -3,7 +3,7 @@
 const
     respond = require('../helpfull functions').respond,
     User = require('./UserModel');
-    
+
 
 exports.getAll = (req, res) => {
     console.log('get all');
@@ -102,6 +102,7 @@ exports.renderProfile = (req, res) => {
     delete req.user.password;
     res.render('user/pages/profile', {
         profile: true,
-        username: req.user.username
+        username: req.user.username,
+        logged: true
     });
 }
