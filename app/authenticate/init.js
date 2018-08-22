@@ -3,6 +3,7 @@
 const
     passport = require('passport'),
     bcrypt = require('bcrypt'),
+    saltRounds = 10,
     LocalStrategy = require('passport-local').Strategy,
     authenticationMiddleware = require('./middleware'),
 
@@ -52,12 +53,25 @@ function signupStrategy(req, email, password, done) {
     process.nextTick( () => {
         findUser(email, cb);
 
-        function cb(err, user) {
+        async function cb(err, user) {
             if (err) return done(err);
             if (user) return done(null, false);
+            if (req.user) return done('Clear cookies');
 
-            console.log('---------------');
-            console.log(email, passport);
+            const salt = bcrypt.genSaltSync(saltRounds),
+                passwordHash = bcrypt.hashSync(password, salt),
+                newUser = {
+                    username: req.body.username,
+                    password: passwordHash,
+                    email,
+                    phone: req.body.phone,
+                    birthday: req.body.birthday
+                },
+                sql =`INSERT INTO User (username, email, password, phone, birthday) VALUES
+                    ((?), (?), (?), (?), (?))`;
+            await db.runAsync(sql, [newUser.username, newUser.email, newUser.password, newUser.phone, newUser.birthday])
+                .then(() => done(null, newUser))
+                .catch(done)
         }
     })
 }
