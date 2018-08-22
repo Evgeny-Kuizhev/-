@@ -3,7 +3,6 @@ const
     userCntr = require('./userController'),
     passport = require('passport');
 
-
 function init(app) {
     app.get('/', (req, res) => res.render('user/pages/home', {home: true, logged: req.isAuthenticated()}) );
     app.get('/profile', passport.authenticationMiddleware, userCntr.renderProfile);
@@ -27,17 +26,13 @@ function init(app) {
     });
 
     // API/V1 ROUTES
-    //app.get('/api/v1/users', userCntr.getAll)
     app.use('/api/v1/users', apiV1());
-
 }
 
 function apiV1() {
-    router.get('/', userCntr.getAll)
-    router.post('/', userCntr.create)
-    router.get('/:id', userCntr.getOne)
-    router.put('/:id', userCntr.update)
-    router.delete('/:id', userCntr.delete)
+    router.get('/', userCntr.getAll);
+    router.put('/:id', passport.authenticate('local-login'), passport.authenticationMiddleware, userCntr.update);
+    router.delete('/:id', passport.authenticate('local-login'), passport.authenticationMiddleware, userCntr.delete);
     router.get('/:id/notes', userCntr.getNotes);
     return router;
 }

@@ -5,7 +5,7 @@ const
 
 
 function init(app) {
-    app.use('/api/v1/tags', apiV1());
+    app.use('/api/v1/tags', passport.authenticate('local-login'), passport.authenticationMiddleware, apiV1());
 }
 
 function apiV1() {

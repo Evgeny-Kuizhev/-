@@ -6,25 +6,12 @@ const
 
 
 exports.getAll = (req, res) => {
-    console.log('get all');
     function cb(err, users) {
         if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
         if (!users) return respond.failure(res, {message: 'Пользователи не найдены!'}, 404);
         respond.success(res, {users, message: 'Пользователи полученны!'});
     }
     User.getAll(cb);
-}
-
-exports.getOne = (req, res) => {
-    if (!req.params || !req.params.id){
-        return respond.failure(res, {message: 'Плохой запрос'}, 400);
-    }
-    function cb(err, user) {
-        if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
-        if (!user) return respond.failure(res, {message: 'Пользователь не найден!'}, 404);
-        respond.success(res, {user, message: 'Пользователь получен!'});
-    }
-    User.getOne(req.params.id, cb);
 }
 
 exports.getNotes = (req, res) => {
@@ -39,30 +26,16 @@ exports.getNotes = (req, res) => {
     User.getNotes(req.params.id, cb);
 }
 
-exports.create = (req, res) => {
-    const b = req.body;
-    if (!b || !b.username || !b.email || !b.password) {
-        return respond.failure(res, {message: 'Имя, емайл и пароль обязательные поля!'}, 400);
-    }
-    function cb(err, user) {
-        if (err) {
-            if (err.code === "SQLITE_CONSTRAINT")
-                return respond.failure(res, {message: "Имя или емайл уже существует"}, 400);
-            return respond.failure(res, {message: "Бд вернула ошибку"}, 500);
-        }
-        respond.success(res, {user, message: 'Пользователь создан!!'});
-    }
-    User.create(b.username, b.email, b.password, b.phone, b.birthday, cb);
-}
-
 exports.update = (req, res) => {
     const [b, userId] = [req.body, req.params.id];
     if (!b || !req.params || !req.params.id){
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
+    if (+userId !== +req.user.id)
+        return respond.failure(res, {message: 'У вас не достаточно привелегий'}, 403)
+
     const updateFields = {
         username: b.username,
-        email: b.email,
         phone: b.phone,
         birthday: b.birthday
     }
@@ -89,6 +62,8 @@ exports.delete = (req, res) => {
     if (!req.params || !req.params.id){
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
+    if (+req.params.id !== +req.user.id)
+        return respond.failure(res, {message: 'У вас не достаточно привелегий'}, 403)
     function cb(err, user) {
         if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
         if (!user) return respond.failure(res, {message: 'Нет такого пользователя для удаления!'}, 404);

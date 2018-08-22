@@ -5,5 +5,6 @@ CREATE TABLE "User" (
   email     TEXT        NOT NULL    UNIQUE,
   phone     INTEGER     UNIQUE,
   birthday  DATE,
+  role      INTEGER     DEFAULT 0,
   notes_count INTEGER   DEFAULT 0
 );

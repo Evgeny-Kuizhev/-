@@ -6,12 +6,17 @@ const
     bodyParser = require('body-parser'),
     exphbs = require('express-handlebars'),
     logger = require('morgan'),
+    helmet = require('helmet'),
 
     passport = require('passport'),
     session = require('express-session'),
     RedisStore = require('connect-redis')(session),
 
     app = express();
+
+
+// security
+app.use(helmet());
 
 // enable body parser
 app.use(bodyParser.json());
@@ -25,6 +30,7 @@ app.use(session({
         url: 'redis://localhost'
     }),
     secret: 'my-secret',
+    name: 'sessionId',
     resave: false,
     saveUninitialized: false
 }));

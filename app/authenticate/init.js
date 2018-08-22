@@ -5,7 +5,7 @@ const
     bcrypt = require('bcrypt'),
     saltRounds = 10,
     LocalStrategy = require('passport-local').Strategy,
-    authenticationMiddleware = require('./middleware'),
+    authenticationMiddleware = require('./middleware').authenticationMiddleware,
 
     db = require('../database/db');
 
