@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Заметки</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+    <ul>
+        <li><a {{#if home}}  class="active"  {{/if}} href="/">Home</a></li>
+        <li><a {{#if profile}}  class="active"  {{/if}} href="/profile">Profile</a></li>
+        {{^if logged}}
+        <li><a {{#if login}}  class="active"  {{/if}} href="/login">Login</a></li>
+        <li><a {{#if signup}}  class="active"  {{/if}} href="/signup">Sign up</a></li>
+        {{/if}}
+
+        {{#if logged}}
+        <li><a {{#if logout}}  class="active"  {{/if}} href="/logout">Logout</a></li>
+        {{/if}}
+    </ul>
+
+    {{{body}}}
+</body>
+
+</html>
