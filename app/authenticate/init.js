@@ -6,6 +6,7 @@ const
     saltRounds = 10,
     LocalStrategy = require('passport-local').Strategy,
     authenticationMiddleware = require('./middleware').authenticationMiddleware,
+    checkNotLogged = require('./middleware').checkNotLogged,
 
     db = require('../database/db');
 
@@ -27,6 +28,7 @@ function initPassport () {
     passport.use('local-login', new LocalStrategy(passportConfig, loginStrategy));
     passport.use('local-signup', new LocalStrategy(passportConfig, signupStrategy));
     passport.authenticationMiddleware = authenticationMiddleware;
+    passport.checkNotLogged = checkNotLogged;
 }
  // find custom field
  const passportConfig = {
