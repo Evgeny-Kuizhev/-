@@ -28,7 +28,7 @@ describe('Home, Login, Logout, SignUp', () => {
         .expect('Location', '/')
         .end((err, res) => {
             if (err) return done(err);
-            assert(!res.header['set-cookie'])
+            //assert(!res.header['set-cookie'])
             Cookies = null;
             done();
         });
