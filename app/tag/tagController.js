@@ -2,7 +2,8 @@
 
 const
     respond = require('../helpfull functions').respond,
-    Tag = require('./TagModel');
+    Tag = require('./TagModel'),
+    Note = require('../note/NoteModel');
 
 
 exports.getAll = (req, res) => {
@@ -26,11 +27,20 @@ exports.getNotes = (req, res) => {
     Tag.getNotes(req.params.id, cb);
 }
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     const noteId = req.params.noteId;
     if (!noteId){
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
+    if (!req.user)
+        return respond.failure(res, {message: 'У вас не достаточно привелегий'}, 403)
+
+    const isOwner = await Note.checkOwner(req.user.id, noteId);
+    if (isOwner.error)
+        return respond.failure(res, {message: 'Ошибка бд.'}, 500);
+    if (!isOwner.success)
+        return respond.failure(res, {message: 'У вас не достаточно привелегий'}, 403);
+
     function cb(err, tag) {
         if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
         // if (!tags) return respond.failure(res, {message: 'Теги записки не найдены!'}, 404);
