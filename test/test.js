@@ -172,30 +172,30 @@ describe('API', () => {
                 done();
             });
         });
-        // it('DELETE NOTE should deleted note', done => {
-        //     const req = request.delete('/api/v1/notes/1');
-        //     req.cookies = Cookies;
-        //     req
-        //     .expect(200)
-        //     .end( (err, res) => {
-        //         if (err) return done(err);
-        //         let b = res.body;
-        //         assert(b.success)
-        //         done();
-        //     });
-        // });
-        // it('DELETE USER should delete user', done => {
-        //     const req = request.delete('/api/v1/users/1');
-        //     req.cookies = Cookies;
-        //     req
-        //     .send({ "email": 'pet@yandex.ru', password: "password123"})
-        //     .expect(200)
-        //     .end( (err, res) => {
-        //         if (err) return done(err);
-        //         let b = res.body;
-        //         assert(b.message === 'Пользователь удален!');
-        //         done();
-        //     });
-        // });
+        it('DELETE NOTE should deleted note', done => {
+            const req = request.delete('/api/v1/notes/1');
+            req.cookies = Cookies;
+            req
+            .expect(200)
+            .end( (err, res) => {
+                if (err) return done(err);
+                let b = res.body;
+                assert(b.success)
+                done();
+            });
+        });
+        it('DELETE USER should delete user', done => {
+            const req = request.delete('/api/v1/users/1');
+            req.cookies = Cookies;
+            req
+            .send({ "email": 'pet@yandex.ru', password: "password123"})
+            .expect(200)
+            .end( (err, res) => {
+                if (err) return done(err);
+                let b = res.body;
+                assert(b.message === 'Пользователь удален!');
+                done();
+            });
+        });
     });
 });
