@@ -25,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require('./authenticate').init();
 
 // Конфигурация passport
+const expiryDate = new Date( Date.now() + 60 * 60 * 1000 ); // 1 hour
 app.use(session({
     store: new RedisStore({
         url: 'redis://localhost'
@@ -32,7 +33,12 @@ app.use(session({
     secret: 'my-secret',
     name: 'sessionId',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        secure: false,
+        httpOnly: true,
+        expires: expiryDate
+    }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
