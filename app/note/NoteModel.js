@@ -41,6 +41,16 @@ class Note {
         else cb(null, {userId, title});
     }
 
+    static async checkOwner(userId, noteId) {
+        let error = null,
+            sql = `SELECT * FROM Note WHERE id="${noteId}"`,
+            note = await db.getAsync(sql).catch(err => { error = err; });
+
+        if (error) return {error};
+        if (+note.user_id === +userId) return {success: true};
+        else return {success: false};
+    }
+
     static async update (noteId, newTitle, cb) {
         let error = null,
             sql =`UPDATE Note SET title = (?) WHERE id=(?)`;
