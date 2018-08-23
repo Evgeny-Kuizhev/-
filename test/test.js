@@ -2,46 +2,62 @@
 
 let request = require('supertest');
 request = request('http://localhost:3000');
-const agent = request.agent('http://localhost:3000');
 const assert = require('assert');
 
+let Cookies;
 
-describe('Pages, Login, SignUp', () => {
-    it('GET / should return status code 200', done => {request.get('/').expect(200, done)});
-    it('Login user', done=> {
-        request
-        .post('/login')
-        .type('form')
-        .send({"email": 'pet@yandex.ru', password: "password123"})
-        .expect(302)
-        .expect('Location', '/profile')
-        .end((err, res) => {
-            if (err) return done(err);
-            // request.saveCookies(res);
-            return done();
-        });
-    });
+describe('Home, Login, Logout, SignUp', () => {
+    it('GET / should return status code 200', done => { request.get('/').expect(200, done) });
     it('SingUp user', done => {
         request
         .post('/signup')
-        .type('form')
         .send({"email": 'evgen@yandex.ru', password: "password123", username: "Evgeny", phone: 8978978932})
         .expect(302)
         .expect('Location', '/profile')
         .end((err, res) => {
             if (err) return done(err);
-            // request.saveCookies(res);
+            Cookies = res.header['set-cookie'];
             return done();
+        });
+    });
+    it('Logout user', done => {
+        const req = request.get('/logout');
+        req.cookies = Cookies;
+        req
+        .expect(302)
+        .expect('Location', '/')
+        .end((err, res) => {
+            if (err) return done(err);
+            assert(!res.header['set-cookie'])
+            Cookies = null;
+            done();
+        });
+    });
+    it('Login user', done => {
+        request
+        .post('/login')
+        .send({"email": 'pet@yandex.ru', password: "password123"})
+        .expect(302)
+        .expect('Location', '/profile')
+        .end((err, res) => {
+            if (err) return done(err);
+            Cookies = res.header['set-cookie'];
+            done();
         });
     });
 });
 describe('API', () => {
     describe('GET /api/v1', () => {
-        it('USERS should return all users', () => {
-            return request
-            .get('/api/v1/users')
-            .expect(200)
-            .then(res => assert(res.body.success));
+        it('USERS should return 403 Forbiden', done => {
+            const req = request.get('/api/v1/users');
+            req.cookies = Cookies;
+            req
+            .expect(403)
+            .end( (err, res) => {
+                if (err) return done(err);
+                assert(!res.body.success);
+                done();
+            });
         });
         it('USERS:1/NOTES should return user\'s notes', () => {
             return request
@@ -85,72 +101,100 @@ describe('API', () => {
         });
     });
 
-    describe('POST /api/v1', () => {
-        it('CREATE NOTE should new note', () => {
-            return request
-            .post('/api/v1/notes')
-            .send({title: 'Начать есть кашу по утрам', user_id: 7, "email": 'pet@yandex.ru', password: "password123"})
-            .expect(200).then(res => {
+    describe('POST /api/v1', done => {
+        it('CREATE NOTE should new note', done => {
+            const req = request.post('/api/v1/notes');
+            req.cookies = Cookies;
+            req
+            .send({title: 'Начать есть кашу по утрам', user_id: 1})
+            .expect(200)
+            .end( (err, res) => {
+                if (err) return done(err);
                 let b = res.body;
                 assert(b.note.title === 'Начать есть кашу по утрам')
+                done();
             })
         });
-        it('CREATE TAG should return new tag', () => {
-            return request
-            .post('/api/v1/tags')
-            .send({title: 'taganrog', "email": 'pet@yandex.ru', password: "password123"})
-            .expect(200).then(res => {
-                assert(res.body.tag.title === 'taganrog')
+        it('CREATE TAG should return new tag', done => {
+            const req = request.post('/api/v1/tags/notes/5');
+            req.cookies = Cookies;
+            req
+            .send({title: 'taganrog'})
+            .expect(200)
+            .end( (err, res) => {
+                if (err) return done(err);
+                assert(res.body.tag.title === 'taganrog');
+                assert(+res.body.tag.noteId === 5);
+                done();
             })
         });
     });
 
     describe('PUT /api/v1', () => {
-        it('CHANGE USER should return new user', () => {
-            return request
-            .put('/api/v1/users/1')
-            .send({"username": 'Petya2', "phone": 12451425, "email": 'pet@yandex.ru', password: "password123" })
-            .expect(200).then( res => {
+        it('CHANGE USER should return new user', done => {
+            const req = request.put('/api/v1/users/1');
+            req.cookies = Cookies;
+            req
+            .send({"username": 'Petya2', "phone": 12451425 })
+            .expect(200)
+            .end( (err, res) => {
+                if (err) return done(err);
                 let b = res.body;
                 assert(b.updated.username === 'Petya2')
+                done();
             })
         });
-        it('CHANGE NOTE should new note', () => {
-            return request
-            .put('/api/v1/notes/3')
-            .send({title: 'Съездить в отпуск',  "email": 'pet@yandex.ru', password: "password123"})
-            .expect(200).then(res => {
+        it('CHANGE NOTE should new note', done => {
+            const req = request.put('/api/v1/notes/2');
+            req.cookies = Cookies;
+            req
+            .send({title: 'Съездить в отпуск' })
+            .expect(200)
+            .end( (err, res) => {
+                if (err) return done(err);
                 let b = res.body;
-                assert(b.updated.title === 'Съездить в отпуск')
+                assert(b.updated.title === 'Съездить в отпуск');
+                done();
             })
         });
     });
 
     describe('DELETE /api/v1', () => {
-        it('DELETE NOTE should deleted note', () => {
-            return request
-            .delete('/api/v1/notes/3')
-            .send({ "email": 'pet@yandex.ru', password: "password123"})
-            .expect(200).then(res => {
+        it('DELETE TAG should return tag_id and note_id', done => {
+            const req = request.delete('/api/v1/tags/7/notes/2');
+            req.cookies = Cookies;
+            req
+            .expect(200)
+            .end( (err, res) => {
+                if (err) return done(err);
+                assert.equal(res.body.tag.tagId, 7);
+                assert.equal(res.body.tag.noteId, 2);
+                done();
+            });
+        });
+        it('DELETE NOTE should deleted note', done => {
+            const req = request.delete('/api/v1/notes/1');
+            req.cookies = Cookies;
+            req
+            .expect(200)
+            .end( (err, res) => {
+                if (err) return done(err);
                 let b = res.body;
                 assert(b.success)
+                done();
             });
         });
-        it('DELETE TAG should return deleted tag', () => {
-            return request
-            .delete('/api/v1/tags/8')
+        it('DELETE USER should delete user', done => {
+            const req = request.delete('/api/v1/users/1');
+            req.cookies = Cookies;
+            req
             .send({ "email": 'pet@yandex.ru', password: "password123"})
-            .expect(200).then(res => {
-                assert(res.body.success)
-            });
-        });
-        it('DELETE USER should delete user', () => {
-            return request
-            .delete('/api/v1/users/1')
-            .send({ "email": 'pet@yandex.ru', password: "password123"})
-            .expect(200).then( res => {
+            .expect(200)
+            .end( (err, res) => {
+                if (err) return done(err);
                 let b = res.body;
-                assert(b.message === 'Пользователь удален!')
+                assert(b.message === 'Пользователь удален!');
+                done();
             });
         });
     });
