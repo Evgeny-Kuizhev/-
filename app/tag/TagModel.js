@@ -23,21 +23,31 @@ class Tag {
         else cb(null, notes);
     }
 
-    static async create(title, cb) {
+    static async create(title, noteId, cb) {
         let error = null,
-            sql = `INSERT INTO Tag (title) VALUES ((?))`;
-            await db.runAsync(sql, title).catch(err => { error = err; });
+            sqlGetTag = `select * from tag where title=(?)`,
+            sqlCreateTag = `INSERT INTO Tag (title) VALUES ((?))`;
 
+        let tag = await db.getAsync(sqlGetTag, title).catch(err => { error = err; });
+        if (error) return cb(error);
+        if (!tag) {
+            await db.runAsync(sqlCreateTag, title).catch(err => { error = err; });
+            tag = await db.getAsync(sqlGetTag, title).catch(err => { error = err; });
+        }
+        if (error) return cb(error);
+
+        let sqlAddTagToNote = `insert into Note_Tag (note_id, tag_id) values ( (?), (?) )`;
+        await db.runAsync(sqlAddTagToNote, [tag.id, noteId]).catch(err => { error = err; });
         if (error) cb(error, null);
-        else cb(null, { title });
+        else cb(null, { title, noteId });
     }
 
-    static async delete(tagId, cb) {
+    static async delete(tagId, noteId, cb) {
         let error = null,
-            sql =`DELETE FROM Tag WHERE id=(?)`;
-        await db.runAsync(sql, [tagId]).catch(err => { error=err; });
+            sql =`DELETE FROM Note_Tag WHERE tag_id=(?) AND note_id=(?)`;
+        await db.runAsync(sql, [tagId, noteId]).catch(err => { error=err; });
         if (error) cb(error, null);
-        else cb(null, {tagId});
+        else cb(null, {tagId, noteId});
     }
 }
 

@@ -27,7 +27,8 @@ exports.getNotes = (req, res) => {
 }
 
 exports.create = (req, res) => {
-    if (!req.body || !req.body.title) {
+    const noteId = req.params.noteId;
+    if (!noteId){
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
     function cb(err, tag) {
@@ -35,17 +36,18 @@ exports.create = (req, res) => {
         // if (!tags) return respond.failure(res, {message: 'Теги записки не найдены!'}, 404);
         respond.success(res, {tag, message: 'Тег добавлен!'});
     }
-    Tag.create(req.body.title, cb);
+    Tag.create(req.body.title, noteId, cb);
 }
 
 exports.delete = (req, res) => {
-    if (!req.params || !req.params.id){
+    const [tagId, noteId] = [req.params.tagId, req.params.noteId];
+    if (!tagId || !noteId){
         return respond.failure(res, {message: 'Плохой запрос'}, 400);
     }
     function cb(err, tag) {
         if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
-        if (!tag) return respond.failure(res, {message: 'Нет такого тега для удаления!'}, 404);
+        if (!tag) return respond.failure(res, {message: 'Нет такого тега для данной записки!'}, 404);
         respond.success(res, {tag, message: 'Тег удален!'});
     }
-    Tag.delete(req.params.id, cb);
+    Tag.delete(tagId, noteId, cb);
 }
