@@ -30,9 +30,9 @@ function init(app) {
 }
 
 function apiV1() {
-    router.get('/', userCntr.getAll);
-    router.put('/:id', passport.authenticate('local-login'), passport.authenticationMiddleware, userCntr.update);
-    router.delete('/:id', passport.authenticate('local-login'), passport.authenticationMiddleware, userCntr.delete);
+    router.get('/', userCntr.getAll); // needed?
+    router.put('/:id', passport.authenticationMiddleware, userCntr.update);
+    router.delete('/:id', passport.authenticationMiddleware, userCntr.delete);
     router.get('/:id/notes', userCntr.getNotes);
     return router;
 }

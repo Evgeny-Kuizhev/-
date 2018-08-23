@@ -6,6 +6,9 @@ const
 
 
 exports.getAll = (req, res) => {
+    if (!req.user.role)
+        return respond.failure(res, {message: 'У вас не достаточно привелегий'}, 403)
+
     function cb(err, users) {
         if (err) return respond.failure(res, {message: 'Ошибка бд.'}, 500);
         if (!users) return respond.failure(res, {message: 'Пользователи не найдены!'}, 404);
