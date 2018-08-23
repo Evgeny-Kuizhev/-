@@ -6,7 +6,7 @@ const
 function init(app) {
     app.get('/', (req, res) => res.render('user/pages/home', {home: true, logged: req.isAuthenticated()}) );
     app.get('/profile', passport.authenticationMiddleware, userCntr.renderProfile);
-    app.get('/login', passport.checkNotLogged, (req, res) => res.render('user/pages/login', {login: true, logged: req.isAuthenticated()}) );
+    app.get('/login', passport.checkNotLogged, (req, res) => res.render('user/pages/login', {login: true}) );
 
     app.post('/login', passport.authenticate('local-login', {
         successRedirect: '/profile',

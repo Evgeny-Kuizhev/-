@@ -73,8 +73,10 @@ app.use((err, req, res, next) => {
 
 app.use('*', (req, res) => {
     res.status(404);
-    res.render('user/pages/notFound');
+    res.render('user/pages/notFound', {logged: req.isAuthenticated()});
 });
 
+// connect socket
+require('./socket').init(app);
 
 module.exports = app;
