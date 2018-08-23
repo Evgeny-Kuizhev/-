@@ -47,6 +47,7 @@ class Note {
             note = await db.getAsync(sql).catch(err => { error = err; });
 
         if (error) return {error};
+        if (!note) return {error: 404};
         if (+note.user_id === +userId) return {success: true};
         else return {success: false};
     }

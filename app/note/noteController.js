@@ -85,8 +85,10 @@ exports.delete = async (req, res) => {
         return respond.failure(res, {message: 'У вас не достаточно привелегий'}, 403)
 
     const isOwner = await Note.checkOwner(req.user.id, req.params.id);
-    if (isOwner.error)
+    if (isOwner.error){
+        if(isOwner.error === 404) return respond.failure(res, {message: 'Записка не найдена!'}, 404);
         return respond.failure(res, {message: 'Ошибка бд.'}, 500);
+    }
     if (!isOwner.success)
         return respond.failure(res, {message: 'У вас не достаточно привелегий'}, 403);
 
