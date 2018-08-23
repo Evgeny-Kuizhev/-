@@ -42,10 +42,26 @@ class Tag {
         else cb(null, { title, noteId });
     }
 
+    static async checkOwner(noteId, tagId) {
+        let error = null,
+            sql = `SELECT * FROM Note_Tag WHERE tag_id="${tagId}"`,
+            note_tag = await db.getAsync(sql).catch(err => { error = err; });
+
+        if (error) return {error};
+        if (!note_tag) return {error: 404};
+        if (+note_tag.note_id === +noteId) return {success: true};
+        else return {success: false};
+    }
+
     static async delete(tagId, noteId, cb) {
         let error = null,
-            sql =`DELETE FROM Note_Tag WHERE tag_id=(?) AND note_id=(?)`;
-        await db.runAsync(sql, [tagId, noteId]).catch(err => { error=err; });
+            sqlGet = `select * from Tag where id=(?)`,
+            sqldel =`DELETE FROM Note_Tag WHERE tag_id=(?) AND note_id=(?)`,
+            tag = await db.getAsync(sqlGet, tagId).catch(err => { error=err; });
+        if (!tag) return cb(tag);
+        if (error) return cb(error);
+
+        await db.runAsync(sqldel, [tagId, noteId]).catch(err => { error=err; });
         if (error) cb(error, null);
         else cb(null, {tagId, noteId});
     }
