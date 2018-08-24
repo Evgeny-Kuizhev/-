@@ -1,19 +1,18 @@
-const
-    http = require('http'),
-    socketIO = require('socket.io');
+const cool = require('cool-ascii-faces');
 
-function init(app) {
-    const
-        server = http.Server(app),
-        io = socketIO(server);
+
+function init(server) {
+    const io = require('socket.io')(server);
 
     io.on('connection', socket => {
-        socket.emit('news', { hello: 'world' });
-        socket.on('my other event', function (data) {
-            console.log(data);
+        setInterval(() => socket.emit('face', {face: cool()}), 1000)
+        console.log('user connected!');
+
+        socket.on('disconnect', () => {
+            console.log('user disconnected!');
         });
-        console.log('New connection!');
     });
+
 }
 
 module.exports = init;
