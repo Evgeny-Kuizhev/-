@@ -1,0 +1,16 @@
+<ul id="faces-list"></ul>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+    const socket = io.connect('http://localhost:3000');
+    socket.on('connect', () => {
+        console.log('Connection with server is established!');
+    });
+    const ul = document.getElementById('faces-list');
+    socket.on('face', data => {
+        const li = document.createElement('li');
+        ul.appendChild(li);
+        li.innerText = data.face;
+    });
+</script>
