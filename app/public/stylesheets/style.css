@@ -158,3 +158,17 @@ button:hover {
        width: 100%;
     }
 }
+
+
+/*-------------------LOG-----------------*/
+
+#faces-list {
+    list-style: none;
+    padding: 20px;
+    background: none;
+}
+
+#faces-list li {
+    margin: 5px;
+    float: none;
+}
