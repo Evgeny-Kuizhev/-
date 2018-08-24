@@ -12,7 +12,8 @@ const
     session = require('express-session'),
     RedisStore = require('connect-redis')(session),
 
-    app = express();
+    app = express(),
+    server = require('http').Server(app);
 
 
 // security
@@ -66,17 +67,18 @@ require('./user').init(app);
 require('./note').init(app);
 require('./tag').init(app);
 
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
-
 app.use('*', (req, res) => {
     res.status(404);
     res.render('user/pages/notFound', {logged: req.isAuthenticated()});
 });
 
-// connect socket
-require('./socket').init(app);
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
-module.exports = app;
+// connect socket
+require('./socket').init(server);
+
+
+module.exports = server;
