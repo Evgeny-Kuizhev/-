@@ -5,7 +5,7 @@ const
 
 function init(app) {
     app.get('/', (req, res) => res.render('user/pages/home', {home: true, logged: req.isAuthenticated()}) );
-    app.get('/log', (req, res) => res.render('user/pages/log'));
+    app.get('/log', (req, res) => res.render('socket/log'));
     app.get('/profile', passport.authenticationMiddleware, userCntr.renderProfile);
     app.get('/login', passport.checkNotLogged, (req, res) => res.render('user/pages/login', {login: true}) );
 
