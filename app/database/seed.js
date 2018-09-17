@@ -1,9 +1,9 @@
 'use strict';
 
-const 
+const
     bcrypt = require('bcrypt'),
     saltRounds = 10,
-    myPlaintextPassword = 'password123',
+    myPlaintextPassword = '1234',
     salt = bcrypt.genSaltSync(saltRounds),
     passwordHash = bcrypt.hashSync(myPlaintextPassword, salt);
 
@@ -17,7 +17,8 @@ module.exports = (db) => {
         ("Dasha", "${passwordHash}", "dash@yandex.ru", 89596348513, NULL),
         ("Lena", "${passwordHash}", "len@yandex.ru", NULL, "03.04.1995"),
         ("Vanya", "${passwordHash}", "van@yandex.ru", 79896344443, NULL),
-        ("Marina", "${passwordHash}", "mar@yandex.ru", 89896343333, "01.02.2001");
+        ("Marina", "${passwordHash}", "mar@yandex.ru", 89896343333, "01.02.2001"),
+        ("Evgeny", "${passwordHash}", "ekuizhev@gmail.com", 89515268628, NULL);
         `, (err) => console.log(err)
     );
 
