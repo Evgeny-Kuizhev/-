@@ -1,32 +1,9 @@
-version: “3”
+version: "3"
 
 services:
     app:
         container_name: app
-        build: .
+        build:
+            context: .
         ports:
             - 3000:3000
-# services:
-#     app1:
-#         container_name: app_one
-#         build: .
-#         ports:
-#             - 3000:3000
-
-#     app2:
-#         container_name: app_two
-#         build: .
-#         ports:
-#             - 5000:5000
-
-#     app3:
-#         container_name: app_three
-#         build: .
-#         ports:
-#             - 8000:8000
-
-#     app4:
-#         container_name: app_for
-#         build: .
-#         ports:
-#             - 2701:2701
