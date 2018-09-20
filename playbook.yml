@@ -1,0 +1,7 @@
+- hosts: localhost
+  connection: docker
+  tasks:
+    - shell: uptime
+
+    - name: create temp directory
+      file: path=/tmp/testdir state=directory
