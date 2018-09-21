@@ -1,7 +1,18 @@
-- hosts: localhost
-  connection: docker
+---
+- hosts: all
   tasks:
-    - shell: uptime
-
-    - name: create temp directory
-      file: path=/tmp/testdir state=directory
+    - name: Install nginx.
+      apt: name=nginx state=present update_cache=yes
+    - name: realy do start nginx
+      command: nginx
+    - name: copy the nginx config file and restart nginx
+      copy:
+        src=/home/nginx.conf.tpl
+        dest=/etc/nginx/nginx.conf
+      copy:
+        src=/home/default.tpl
+        dest=/etc/nginx/sites-enabled/default
+    - name: create symlink
+      command: ln -s/etc/nginx/sites-available/default dest=/etc/nginx/sites-enabled/default
+    - name: reload nginx
+      command: nginx -s reload

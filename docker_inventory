@@ -1,0 +1,2 @@
+my-docker-ssh2 ansible_connection=docker
+my-docker-ssh1 ansible_connection=docker
