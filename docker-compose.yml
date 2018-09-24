@@ -5,15 +5,3 @@ services:
     container_name: ansible
     build: .
 
-
-
-
-# version: "3"
-
-# services:
-#   app:
-#     container_name: app
-#     build:
-#       context: .
-#     ports:
-#       - 3000:3000
